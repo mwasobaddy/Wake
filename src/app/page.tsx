@@ -7,7 +7,7 @@ import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
-const SITE_URL = "https://wake-big-obadiahs-projects.vercel.app";
+const SITE_URL = "https://portfolio-wake.vercel.app";
 
 export const metadata: Metadata = {
   title: "Wake — Wanjohi Kelvin · Full-Stack Engineer, SaaS · Mobile · AI",

@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "https://wake-big-obadiahs-projects.vercel.app",
+      url: "https://portfolio-wake.vercel.app",
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 1,

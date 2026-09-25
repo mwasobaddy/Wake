@@ -14,7 +14,7 @@ const jetbrains = JetBrains_Mono({
   weight: ["400", "500", "700"],
 });
 
-const SITE_URL = "https://wake-big-obadiahs-projects.vercel.app";
+const SITE_URL = "https://portfolio-wake.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
