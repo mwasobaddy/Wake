@@ -44,7 +44,7 @@ export default async function Image() {
           fontFamily: "SpaceGrotesk",
           display: "flex",
           flexDirection: "column",
-          padding: "72px 76px 0",
+          padding: "64px 76px 0",
           position: "relative",
           overflow: "hidden",
         }}
@@ -115,7 +115,7 @@ export default async function Image() {
             <div
               style={{
                 display: "flex",
-                fontSize: 212,
+                fontSize: 176,
                 fontWeight: 700,
                 lineHeight: 1,
                 letterSpacing: "-0.04em",
@@ -130,12 +130,12 @@ export default async function Image() {
                 display: "flex",
                 flexDirection: "row",
                 flexWrap: "wrap",
-                fontSize: 34,
+                fontSize: 30,
                 fontWeight: 500,
                 color: "#c6c8cf",
                 maxWidth: 640,
-                lineHeight: 1.35,
-                marginTop: 18,
+                lineHeight: 1.3,
+                marginTop: 16,
               }}
             >
               <span>Full-stack engineer building </span>
@@ -166,51 +166,22 @@ export default async function Image() {
           style={{
             position: "relative",
             marginTop: "auto",
+            height: 190,
             display: "flex",
             alignItems: "flex-end",
-            gap: 0,
           }}
         >
           <div
             style={{
-              position: "relative",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: 420,
-              height: 420,
-              marginLeft: -92,
-              marginBottom: -64,
+              position: "absolute",
+              bottom: -70,
+              right: -30,
+              width: 330,
+              height: 330,
+              borderRadius: "50%",
+              background: "rgba(255,140,61,0.20)",
             }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                width: 250,
-                height: 250,
-                borderRadius: "50%",
-                background: "rgba(255,140,61,0.16)",
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                width: 180,
-                height: 180,
-                borderRadius: "50%",
-                background: "rgba(255,140,61,0.30)",
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                width: 120,
-                height: 120,
-                borderRadius: "50%",
-                background: "rgba(255,140,61,0.55)",
-              }}
-            />
-          </div>
+          />
           <div
             style={{
               display: "flex",
@@ -218,7 +189,8 @@ export default async function Image() {
               height: 190,
               alignItems: "flex-end",
               gap: 12,
-              marginLeft: -150,
+              position: "relative",
+              zIndex: 1,
             }}
           >
             {SKYLINE.map((b, i) => (
@@ -226,7 +198,7 @@ export default async function Image() {
                 key={i}
                 style={{
                   width: `${b.w}%`,
-                  height: `${b.h * 100}%`,
+                  height: `${b.h * 7.5}px`,
                   background: SKY,
                   borderTop: "3px solid " + (i % 2 === 0 ? EMBER : "transparent"),
                   display: "flex",
