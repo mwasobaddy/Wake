@@ -1,6 +1,7 @@
 import { site } from "@/data/site";
 import { count, categories } from "@/data/projects";
 import { ArrowDownIcon, ArrowUpRightIcon } from "@/components/icons";
+import WakeSunrise from "@/components/WakeSunrise";
 import Reveal from "@/components/Reveal";
 
 export default function Hero() {
@@ -17,13 +18,16 @@ export default function Hero() {
       <div className="grid-lines absolute inset-0" />
       <div className="sun-glow absolute inset-0" />
 
+      <WakeSunrise
+        prefix="hero"
+        aria-hidden
+        className="pointer-events-none absolute right-0 top-24 hidden w-[min(40vw,460px)] lg:block"
+      />
+
       <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-6 pb-16 pt-36">
         <Reveal>
           <div className="mb-10 flex items-center gap-4">
-            <div className="relative h-8 w-16">
-              <div className="absolute inset-x-0 bottom-0 h-px bg-wake" />
-              <div className="rise absolute inset-x-0 bottom-0 mx-auto h-8 w-16 rounded-t-full border-t border-l border-r border-wake/50" />
-            </div>
+            <WakeSunrise prefix="mark" className="h-10 w-16" />
             <p className="font-mono text-xs uppercase tracking-[0.25em] text-white/50">
               {`// ${site.owner} — full-stack engineer, ${site.location}`}
             </p>
