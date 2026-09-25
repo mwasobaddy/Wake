@@ -1,6 +1,54 @@
 import { site } from "@/data/site";
 import Reveal from "@/components/Reveal";
-import { ArrowUpRightIcon, MailIcon } from "@/components/icons";
+import {
+  ArrowUpRightIcon,
+  DownloadIcon,
+  GitHubIcon,
+  MailIcon,
+  PhoneIcon,
+  WhatsAppIcon,
+} from "@/components/icons";
+
+const channels = [
+  {
+    idx: "01",
+    label: "Email",
+    display: site.email,
+    href: `mailto:${site.email}`,
+    icon: MailIcon,
+  },
+  {
+    idx: "02",
+    label: "Call",
+    display: site.phone,
+    href: site.phoneHref,
+    icon: PhoneIcon,
+  },
+  {
+    idx: "03",
+    label: "WhatsApp",
+    display: "Chat on WhatsApp",
+    href: site.whatsapp,
+    icon: WhatsAppIcon,
+    external: true,
+  },
+  {
+    idx: "04",
+    label: "GitHub",
+    display: `@${site.handle}`,
+    href: site.github,
+    icon: GitHubIcon,
+    external: true,
+  },
+  {
+    idx: "05",
+    label: "CV",
+    display: "wanjohi-kelvin-cv.pdf",
+    href: site.cv,
+    icon: DownloadIcon,
+    external: true,
+  },
+];
 
 export default function Contact() {
   return (
@@ -26,32 +74,33 @@ export default function Contact() {
         <Reveal delay={150}>
           <p className="mt-6 max-w-xl text-sm leading-relaxed text-white/55 sm:text-base">
             Product idea? A platform that needs building? A system that needs
-            rewiring? Bring it.
+            rewiring? Bring it. I reply fast — pick your channel.
           </p>
         </Reveal>
 
         <Reveal delay={220}>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            {site.email ? (
+          <div className="mt-12 grid w-full max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {channels.map(({ idx, label, display, href, icon: Icon, external }) => (
               <a
-                href={`mailto:${site.email}`}
-                className="group inline-flex items-center gap-2 bg-wake px-6 py-4 font-mono text-xs font-medium uppercase tracking-[0.18em] text-ink transition-colors hover:bg-ember"
+                key={idx}
+                href={href}
+                {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="group flex items-center gap-4 border border-line bg-ink/60 p-5 text-left transition-colors hover:border-wake hover:bg-wake/5"
               >
-                <MailIcon className="h-4 w-4" />
-                {site.email}
+                <span className="shrink-0 border border-line p-3 text-wake transition-colors group-hover:border-wake">
+                  <Icon className="h-5 w-5" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-mono text-[11px] uppercase tracking-[0.22em] text-white/35">
+                    {idx} — {label}
+                  </span>
+                  <span className="block truncate font-mono text-sm text-white/90 sm:text-base">
+                    {display}
+                  </span>
+                </span>
+                <ArrowUpRightIcon className="h-4 w-4 shrink-0 text-white/30 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-wake" />
               </a>
-            ) : null}
-            <a
-              href={site.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`group inline-flex items-center gap-2 border border-line px-6 py-4 font-mono text-xs uppercase tracking-[0.18em] text-white/80 transition-colors hover:border-wake hover:text-wake ${
-                site.email ? "" : "bg-wake text-ink hover:bg-ember"
-              }`}
-            >
-              @{site.handle}
-              <ArrowUpRightIcon className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </a>
+            ))}
           </div>
         </Reveal>
       </div>

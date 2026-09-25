@@ -1,6 +1,6 @@
 import { site } from "@/data/site";
 import { count, categories } from "@/data/projects";
-import { ArrowDownIcon, ArrowUpRightIcon } from "@/components/icons";
+import { ArrowDownIcon, ArrowUpRightIcon, DownloadIcon } from "@/components/icons";
 import WakeSunrise from "@/components/WakeSunrise";
 import Reveal from "@/components/Reveal";
 
@@ -67,6 +67,15 @@ export default function Hero() {
               >
                 GitHub
                 <ArrowUpRightIcon className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </a>
+              <a
+                href={site.cv}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 border border-line px-5 py-3 font-mono text-xs uppercase tracking-[0.18em] text-white/80 transition-colors hover:border-wake hover:text-wake"
+              >
+                View CV
+                <DownloadIcon className="h-3.5 w-3.5 transition-transform group-hover:translate-y-0.5" />
               </a>
             </div>
           </div>

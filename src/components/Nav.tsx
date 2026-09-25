@@ -45,6 +45,14 @@ export default function Nav() {
               {link.label}
             </a>
           ))}
+          <a
+            href={site.cv}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-wake"
+          >
+            Résumé
+          </a>
         </nav>
 
         <a
