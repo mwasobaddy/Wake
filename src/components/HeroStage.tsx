@@ -497,7 +497,7 @@ export default function HeroStage({ children }: { children: ReactNode }) {
 
       <div
         ref={hintRef}
-        className="pointer-events-none absolute bottom-6 left-6 z-20 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40"
+        className="pointer-events-none absolute left-6 top-20 z-20 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40"
       >
         drag · rotate · zoom
       </div>
@@ -508,7 +508,7 @@ export default function HeroStage({ children }: { children: ReactNode }) {
         <button
           type="button"
           onClick={toScroll}
-          className="absolute bottom-6 right-6 z-30 cursor-pointer bg-white px-5 py-3 font-mono text-xs uppercase tracking-[0.18em] text-black mix-blend-difference"
+          className="absolute right-6 top-20 z-30 cursor-pointer bg-white px-5 py-3 font-mono text-xs uppercase tracking-[0.18em] text-black mix-blend-difference"
         >
           Continue to scroll
         </button>
@@ -516,7 +516,7 @@ export default function HeroStage({ children }: { children: ReactNode }) {
         <button
           type="button"
           onClick={toInteractive}
-          className="absolute bottom-6 right-6 z-30 cursor-pointer bg-white px-5 py-3 font-mono text-xs uppercase tracking-[0.18em] text-black mix-blend-difference"
+          className="absolute right-6 top-20 z-30 cursor-pointer bg-white px-5 py-3 font-mono text-xs uppercase tracking-[0.18em] text-black mix-blend-difference"
         >
           Make interactive
         </button>
