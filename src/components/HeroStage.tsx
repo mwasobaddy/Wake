@@ -1,11 +1,17 @@
 "use client";
 
-import { ReactNode, useEffect, useMemo, useRef } from "react";
+import {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import gsap from "gsap";
 
 export const sceneBus: {
@@ -71,7 +77,6 @@ export const sceneBus: {
 };
 
 const MODEL_URL = "/models/office-hero.glb";
-const REVEAL_DELAY_MS = 3000;
 
 if (
   process.env.NODE_ENV !== "production" &&
@@ -182,6 +187,7 @@ function OfficeModel() {
     scene.traverse((node) => {
       if (node instanceof THREE.Mesh) {
         node.castShadow = true;
+        node.receiveShadow = true;
       }
     });
   }, [scene, camera]);
@@ -224,56 +230,50 @@ function SceneContent() {
     sceneBus.camera = camera as THREE.PerspectiveCamera;
     controlsRef.current = controls;
 
-    const stopAutoRotate = () => {
-      controls.autoRotate = false;
-    };
-    gl.domElement.addEventListener("pointerdown", stopAutoRotate, {
-      passive: true,
-    });
-
     return () => {
       sceneBus.controls = null;
       sceneBus.camera = null;
       controlsRef.current = null;
-      gl.domElement.removeEventListener("pointerdown", stopAutoRotate);
       controls.dispose();
     };
   }, [camera, gl]);
 
   useFrame(() => {
-    if (sceneBus.revealed && controlsRef.current) {
-      controlsRef.current.autoRotate = false;
-    }
     controlsRef.current?.update();
   });
 
   return (
     <>
-      <ambientLight intensity={0.55} />
-      <hemisphereLight
-        intensity={0.45}
-        color="#7d8ea8"
-        groundColor="#1a0f07"
+      {/* Key: warm, front-right-above. The only shadow caster. */}
+      <directionalLight
+        position={[4.5, 7, 5]}
+        intensity={3.4}
+        color="#fff1de"
+        castShadow
+        shadow-mapSize={[2048, 2048]}
+        shadow-camera-left={-3.6}
+        shadow-camera-right={3.6}
+        shadow-camera-top={3.6}
+        shadow-camera-bottom={-3.6}
+        shadow-camera-near={0.5}
+        shadow-camera-far={24}
+        shadow-bias={-0.0004}
+        shadow-normalBias={0.02}
       />
-      <directionalLight position={[5, 8, 4]} intensity={1.15} color="#ffd9b8" />
-      <spotLight
-        position={[-6, 3, -6]}
-        intensity={80}
-        angle={0.5}
-        penumbra={1}
-        color="#ff7a2a"
-        distance={30}
-      />
-      <pointLight position={[0, 4, 8]} intensity={40} color="#5b7da6" distance={20} />
+      {/* Fill: warm sky over an orange ground bounce off the stage. */}
+      <hemisphereLight intensity={0.55} color="#ffc79a" groundColor="#ff5c00" />
+      {/* Rim: hot orange from behind to lift the model off the wall. */}
+      <directionalLight position={[-5, 3.5, -6]} intensity={1.6} color="#ff8a3d" />
+      <ambientLight intensity={0.18} color="#ffb37a" />
 
-      <mesh ref={stageRef3d} position={[0, -0.3, 0]}>
+      <mesh ref={stageRef3d} position={[0, -0.3, 0]} receiveShadow>
         <primitive object={foldedGeometry} attach="geometry" />
         <meshStandardMaterial
           color="#ff5c00"
           roughness={0.7}
           metalness={0.1}
           emissive="#ff5c00"
-          emissiveIntensity={0.15}
+          emissiveIntensity={0.06}
           side={THREE.DoubleSide}
         />
       </mesh>
@@ -287,80 +287,125 @@ export default function HeroStage({ children }: { children: ReactNode }) {
   const stageRef = useRef<HTMLDivElement>(null);
   const wordsRef = useRef<HTMLDivElement>(null);
   const hintRef = useRef<HTMLDivElement>(null);
+  const [mode, setMode] = useState<"interactive" | "scroll">("interactive");
 
-  useEffect(() => {
-    const reduce = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+  const prefersReducedMotion = () =>
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    if (reduce) {
-      gsap.set(wordsRef.current, { autoAlpha: 1, x: 0, filter: "blur(0px)" });
-      gsap.set(hintRef.current, { autoAlpha: 1 });
-      sceneBus.setModelFit(sceneBus.revealFitK);
-      sceneBus.revealed = true;
+  const applyScrollState = useCallback(() => {
+    const lg = window.matchMedia("(min-width: 1024px)").matches;
+    gsap.set(stageRef.current, {
+      x: lg ? window.innerWidth * 0.25 : 0,
+      y: lg ? 0 : window.innerHeight * 0.05,
+      scale: lg ? 0.94 : 1,
+    });
+    sceneBus.setModelFit(sceneBus.revealFitK);
+    gsap.set(wordsRef.current, { autoAlpha: 1, x: 0, filter: "blur(0px)" });
+    gsap.set(hintRef.current, { autoAlpha: 0 });
+  }, []);
+
+  const applyInteractiveState = useCallback(() => {
+    gsap.set(stageRef.current, { x: 0, y: 0, scale: 1 });
+    sceneBus.setModelFit(1);
+    gsap.set(wordsRef.current, { autoAlpha: 0, x: -64, filter: "blur(6px)" });
+    gsap.set(hintRef.current, { autoAlpha: 1 });
+  }, []);
+
+  // "Continue to scroll": run the reveal, then hand the page back to the user
+  // by switching the scene out of interaction mode.
+  const toScroll = useCallback(() => {
+    if (sceneBus.revealed) return;
+    sceneBus.revealed = true;
+    setMode("scroll");
+    if (sceneBus.controls) sceneBus.controls.enabled = false;
+
+    if (prefersReducedMotion()) {
+      applyScrollState();
       return;
     }
 
+    const lg = window.matchMedia("(min-width: 1024px)").matches;
+    gsap.to(stageRef.current, {
+      x: lg ? window.innerWidth * 0.25 : 0,
+      y: lg ? 0 : window.innerHeight * 0.05,
+      scale: lg ? 0.94 : 1,
+      duration: 1.5,
+      ease: "power3.inOut",
+    });
+    const fit = { k: 1 };
+    gsap.to(fit, {
+      k: sceneBus.revealFitK,
+      duration: 1.5,
+      ease: "power3.inOut",
+      onUpdate: () => sceneBus.setModelFit(fit.k),
+    });
+    gsap.to(wordsRef.current, {
+      autoAlpha: 1,
+      x: 0,
+      filter: "blur(0px)",
+      duration: 1,
+      ease: "power3.out",
+      delay: lg ? 0.1 : 0,
+    });
+    gsap.to(hintRef.current, { autoAlpha: 0, duration: 0.3 });
+  }, [applyScrollState]);
+
+  // "Make interactive": reverse everything and give control back.
+  const toInteractive = useCallback(() => {
+    if (!sceneBus.revealed) return;
+    sceneBus.revealed = false;
+    setMode("interactive");
+    if (sceneBus.controls) sceneBus.controls.enabled = true;
+
+    if (prefersReducedMotion()) {
+      applyInteractiveState();
+      return;
+    }
+
+    gsap.to(stageRef.current, {
+      x: 0,
+      y: 0,
+      scale: 1,
+      duration: 1.5,
+      ease: "power3.inOut",
+    });
+    const fit = { k: sceneBus.revealFitK };
+    gsap.to(fit, {
+      k: 1,
+      duration: 1.5,
+      ease: "power3.inOut",
+      onUpdate: () => sceneBus.setModelFit(fit.k),
+    });
+    gsap.to(wordsRef.current, {
+      autoAlpha: 0,
+      x: -64,
+      filter: "blur(6px)",
+      duration: 0.8,
+      ease: "power2.in",
+    });
+    gsap.to(hintRef.current, { autoAlpha: 1, duration: 0.4, delay: 0.5 });
+  }, [applyInteractiveState]);
+
+  useEffect(() => {
     const entrance = gsap.fromTo(
       stageRef.current,
       { autoAlpha: 0, scale: 0.96, y: 24 },
       { autoAlpha: 1, scale: 1, y: 0, duration: 1.4, ease: "power3.out" },
     );
     gsap.set(wordsRef.current, { autoAlpha: 0, x: -64, filter: "blur(6px)" });
-    gsap.set(hintRef.current, { autoAlpha: 0 });
-
-    let done = false;
-    const timer = window.setTimeout(reveal, REVEAL_DELAY_MS);
-
-    function reveal() {
-      if (done) return;
-      done = true;
-      window.clearTimeout(timer);
-
-      sceneBus.revealed = true;
-      const lg = window.matchMedia("(min-width: 1024px)").matches;
-
-      gsap.to(stageRef.current, {
-        x: lg ? window.innerWidth * 0.25 : 0,
-        y: lg ? 0 : window.innerHeight * 0.05,
-        scale: lg ? 0.94 : 1,
-        duration: 1.5,
-        ease: "power3.inOut",
-      });
-      const fit = { k: 1 };
-      gsap.to(fit, {
-        k: sceneBus.revealFitK,
-        duration: 1.5,
-        ease: "power3.inOut",
-        onUpdate: () => sceneBus.setModelFit(fit.k),
-      });
-      gsap.to(wordsRef.current, {
-        autoAlpha: 1,
-        x: 0,
-        filter: "blur(0px)",
-        duration: 1,
-        ease: "power3.out",
-        delay: lg ? 0.1 : 0,
-      });
-      gsap.to(hintRef.current, {
-        autoAlpha: 1,
-        duration: 0.6,
-        delay: lg ? 0.2 : 0,
-      });
-    }
+    gsap.set(hintRef.current, { autoAlpha: 1 });
 
     function onScroll() {
-      if (window.scrollY > 24) reveal();
+      if (window.scrollY > 24) toScroll();
     }
 
     window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
-      window.clearTimeout(timer);
       window.removeEventListener("scroll", onScroll);
       entrance.kill();
     };
-  }, []);
+  }, [toScroll]);
 
   return (
     <>
@@ -370,13 +415,28 @@ export default function HeroStage({ children }: { children: ReactNode }) {
         style={{ touchAction: "pan-y" }}
       >
         <Canvas
+          shadows
           onCreated={({ gl, scene }) => {
+            gl.shadowMap.enabled = true;
+            gl.shadowMap.type = THREE.PCFShadowMap;
+
+            // Warm orange IBL so reflections and ambient bounce match the stage.
             const pmrem = new THREE.PMREMGenerator(gl);
-            const envScene = new RoomEnvironment();
-            const rt = pmrem.fromScene(envScene, 0.04);
-            scene.environment = rt.texture;
-            rt.dispose();
+            const envScene = new THREE.Scene();
+            const shell = new THREE.Mesh(
+              new THREE.BoxGeometry(20, 20, 20),
+              new THREE.MeshBasicMaterial({
+                color: "#ff5c00",
+                side: THREE.BackSide,
+              }),
+            );
+            envScene.add(shell);
+            const target = pmrem.fromScene(envScene, 0.04);
+            scene.environment = target.texture;
+            scene.environmentIntensity = 0.35;
             pmrem.dispose();
+            shell.geometry.dispose();
+            (shell.material as THREE.Material).dispose();
           }}
           camera={{ position: [0, 0.9, 5.8], fov: 34, near: 0.1, far: 100 }}
           dpr={[1, 2]}
@@ -397,11 +457,30 @@ export default function HeroStage({ children }: { children: ReactNode }) {
 
       <div
         ref={hintRef}
-        className="pointer-events-none absolute bottom-6 right-6 z-20 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40"
-        style={{ opacity: 0 }}
+        className="pointer-events-none absolute bottom-6 left-6 z-20 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40"
       >
-        drag · rotate · zoom — then scroll
+        drag · rotate · zoom
       </div>
+
+      {/* Masked controls: difference blend keeps them legible over both the
+          orange stage and the dark page. */}
+      {mode === "interactive" ? (
+        <button
+          type="button"
+          onClick={toScroll}
+          className="absolute bottom-6 right-6 z-30 cursor-pointer bg-white px-5 py-3 font-mono text-xs uppercase tracking-[0.18em] text-black mix-blend-difference"
+        >
+          Continue to scroll
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={toInteractive}
+          className="absolute bottom-6 right-6 z-30 cursor-pointer bg-white px-5 py-3 font-mono text-xs uppercase tracking-[0.18em] text-black mix-blend-difference"
+        >
+          Make interactive
+        </button>
+      )}
     </>
   );
 }
