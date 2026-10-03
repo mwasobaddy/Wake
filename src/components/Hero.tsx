@@ -19,25 +19,25 @@ export default function Hero() {
       <div className="sun-glow absolute inset-0" />
 
       <HeroStage>
-        <div className="relative flex min-h-[100svh] flex-col justify-end px-6 pb-16 pt-36 lg:w-1/2">
-          <div className="mb-10 flex items-center gap-4">
+        <div className="relative flex min-h-[100svh] flex-col justify-end px-6 pb-12 pt-24 lg:w-1/2">
+          <div className="mb-6 flex items-center gap-4">
             <WakeSunrise prefix="mark" className="h-10 w-16" />
             <p className="font-mono text-xs uppercase tracking-[0.25em] text-white/50">
               {`// ${site.owner} — full-stack engineer, ${site.location}`}
             </p>
           </div>
 
-          <h1 className="text-[clamp(4.5rem,16vw,14rem)] font-bold leading-none tracking-tighter">
+          <h1 className="text-[clamp(4rem,13vw,12rem)] font-bold leading-none tracking-tighter">
             Wake<span className="text-wake">.</span>
           </h1>
 
-          <p className="mt-8 max-w-2xl font-medium leading-snug sm:text-2xl">
+          <p className="mt-6 max-w-2xl font-medium leading-snug sm:text-2xl">
             I build digital products at{" "}
             <span className="rise">full intensity</span> — SaaS, mobile, and AI,
             from first commit to production.
           </p>
 
-          <div className="mt-10 max-w-xl">
+          <div className="mt-8 max-w-xl">
             <p className="text-sm leading-relaxed text-white/60">{site.tagline}</p>
             <div className="mt-6 flex flex-wrap items-center gap-4">
               <a
@@ -68,7 +68,7 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="mt-16 grid grid-cols-3 divide-x divide-line border-y border-line">
+          <div className="mt-10 grid grid-cols-3 divide-x divide-line border-y border-line">
             {stats.map((stat) => (
               <div key={stat.label} className="px-6 py-5 first:pl-0">
                 <p className="font-bold text-wake">{stat.value}</p>
