@@ -78,6 +78,14 @@ export const sceneBus: {
 
 const MODEL_URL = "/models/office-hero.glb";
 
+// Ping-pong auto-rotation: OrbitControls' built-in autoRotate just stops when it
+// reaches an azimuth clamp, so we drive the azimuth ourselves and reverse at the
+// edges. That keeps the front of the scene on show and never comes to a stop.
+const AUTO_SPIN = 0.25; // radians per second
+const AZ_LIMIT = Math.PI / 2 - 0.08;
+const spinOffset = new THREE.Vector3();
+const spinSpherical = new THREE.Spherical();
+
 if (
   process.env.NODE_ENV !== "production" &&
   typeof window !== "undefined"
@@ -198,6 +206,8 @@ function OfficeModel() {
 function SceneContent() {
   const { camera, gl } = useThree();
   const controlsRef = useRef<OrbitControls | null>(null);
+  const spinDirRef = useRef(1);
+  const draggingRef = useRef(false);
   const stageRef3d = useRef<THREE.Mesh | null>(null);
   const foldedGeometry = useMemo(() => createFoldedDiscGeometry(96), []);
 
@@ -216,8 +226,6 @@ function SceneContent() {
     controls.dampingFactor = 0.08;
     controls.enablePan = true;
     controls.enableZoom = true;
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.8;
     controls.minDistance = 1.4;
     controls.maxDistance = 14;
     controls.maxPolarAngle = Math.PI * 0.92;
@@ -230,16 +238,48 @@ function SceneContent() {
     sceneBus.camera = camera as THREE.PerspectiveCamera;
     controlsRef.current = controls;
 
+    const markDragging = () => {
+      draggingRef.current = true;
+    };
+    const markIdle = () => {
+      draggingRef.current = false;
+    };
+    gl.domElement.addEventListener("pointerdown", markDragging);
+    window.addEventListener("pointerup", markIdle);
+
     return () => {
       sceneBus.controls = null;
       sceneBus.camera = null;
       controlsRef.current = null;
+      gl.domElement.removeEventListener("pointerdown", markDragging);
+      window.removeEventListener("pointerup", markIdle);
       controls.dispose();
     };
   }, [camera, gl]);
 
-  useFrame(() => {
-    controlsRef.current?.update();
+  useFrame((_, delta) => {
+    const controls = controlsRef.current;
+    if (!controls) return;
+
+    // Hold still while the user is dragging, then carry on spinning.
+    if (!draggingRef.current) {
+      const step = AUTO_SPIN * Math.min(delta, 0.05);
+      let next = controls.getAzimuthalAngle() + spinDirRef.current * step;
+      if (next >= AZ_LIMIT) {
+        next = AZ_LIMIT;
+        spinDirRef.current = -1;
+      } else if (next <= -AZ_LIMIT) {
+        next = -AZ_LIMIT;
+        spinDirRef.current = 1;
+      }
+      spinOffset.copy(camera.position).sub(controls.target);
+      spinSpherical.setFromVector3(spinOffset);
+      spinSpherical.theta = next;
+      spinOffset.setFromSpherical(spinSpherical);
+      camera.position.copy(controls.target).add(spinOffset);
+    }
+
+    controls.update();
   });
 
   return (
