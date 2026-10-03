@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { site } from "@/data/site";
 
 const links = [
@@ -13,6 +14,14 @@ export default function Footer() {
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 py-8 sm:flex-row">
         <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
           <span className="h-2 w-2 rounded-full bg-wake" />
+          <Image
+            src="/brand/wake-mark.svg"
+            alt=""
+            width={24}
+            height={16}
+            unoptimized
+            className="h-4 w-auto"
+          />
           {site.name} © {new Date().getFullYear()} — {site.owner}
         </p>
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">

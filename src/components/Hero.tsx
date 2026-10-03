@@ -1,7 +1,7 @@
+import Image from "next/image";
 import { site } from "@/data/site";
 import { count, categories } from "@/data/projects";
 import { ArrowDownIcon, ArrowUpRightIcon, DownloadIcon } from "@/components/icons";
-import WakeSunrise from "@/components/WakeSunrise";
 import HeroStage from "@/components/HeroStage";
 
 export default function Hero() {
@@ -21,14 +21,21 @@ export default function Hero() {
       <HeroStage>
         <div className="relative flex min-h-[100svh] flex-col justify-end px-6 pb-12 pt-24 lg:w-1/2">
           <div className="mb-6 flex items-center gap-4">
-            <WakeSunrise prefix="mark" className="h-10 w-16" />
+            <Image
+              src="/brand/wake-mark.svg"
+              alt="Wake"
+              width={48}
+              height={32}
+              unoptimized
+              className="h-8 w-auto"
+            />
             <p className="font-mono text-xs uppercase tracking-[0.25em] text-white/50">
               {`// ${site.owner} — full-stack engineer, ${site.location}`}
             </p>
           </div>
 
           <h1 className="text-[clamp(4rem,13vw,12rem)] font-bold leading-none tracking-tighter">
-            Wake<span className="text-wake">.</span>
+            WaKe<span className="text-wake">.</span>
           </h1>
 
           <p className="mt-6 max-w-2xl font-medium leading-snug sm:text-2xl">

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { site } from "@/data/site";
 import { ArrowUpRightIcon } from "@/components/icons";
@@ -29,8 +30,16 @@ export default function Nav() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <a href="#top" className="flex items-center gap-2 font-mono text-sm tracking-tight">
+        <a href="#top" className="flex items-center gap-2.5 font-mono text-sm tracking-tight">
           <span className="h-2.5 w-2.5 rounded-full bg-wake animate-pulse-dot" />
+          <Image
+            src="/brand/wake-mark.svg"
+            alt=""
+            width={36}
+            height={24}
+            unoptimized
+            className="h-6 w-auto"
+          />
           <span className="font-bold uppercase tracking-[0.2em]">Wake</span>
           <span className="text-white/30">®</span>
         </a>
