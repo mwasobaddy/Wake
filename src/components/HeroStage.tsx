@@ -337,7 +337,7 @@ export default function HeroStage({ children }: { children: ReactNode }) {
 
   // Where the stage and the model sit in each mode. Tablets and below have no
   // room for copy beside the scene, so scrolling slides the whole stage off to
-  // the left and hides it, handing the words the full width. Desktop keeps the
+  // the right and hides it, handing the words the full width. Desktop keeps the
   // scene on show, nudged right and scaled down to sit beside the copy.
   // Both x and xPercent are always written so a breakpoint change mid-session
   // cannot leave a stale offset on the other axis.
@@ -356,9 +356,9 @@ export default function HeroStage({ children }: { children: ReactNode }) {
           }
         : {
             x: 0,
-            // The stage is viewport-sized, so -104% clears the frame with a
+            // The stage is viewport-sized, so 104% clears the frame with a
             // little slack and no sliver of canvas left on screen.
-            xPercent: scrolled ? -104 : 0,
+            xPercent: scrolled ? 104 : 0,
             y: 0,
             scale: 1,
             autoAlpha: scrolled ? 0 : 1,
