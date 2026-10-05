@@ -69,6 +69,15 @@ html {
   width: fit-content;
 }
 
+/* ---------- float on scroll ---------- */
+
+/* Words need a box of their own for GSAP to transform them. Only the display is
+   declared here — the hidden start state is set by the tween, never in CSS, so
+   text stays readable if the script never runs. */
+.float-word {
+  display: inline-block;
+}
+
 /* ---------- reveal on scroll ---------- */
 
 .reveal {
