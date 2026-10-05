@@ -1,5 +1,6 @@
 import { site } from "@/data/site";
 import Reveal from "@/components/Reveal";
+import FloatText from "@/components/FloatText";
 import {
   ArrowUpRightIcon,
   DownloadIcon,
@@ -64,19 +65,24 @@ export default function Contact() {
           </p>
         </Reveal>
 
-        <Reveal delay={80}>
-          <h2 className="max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-6xl">
-            Let&apos;s wake up to{" "}
-            <span className="rise">what&apos;s next</span> together.
-          </h2>
-        </Reveal>
+        <FloatText
+          as="h2"
+          split="char"
+          y={26}
+          className="max-w-3xl text-balance text-4xl font-bold tracking-tight sm:text-6xl"
+        >
+          Let&apos;s wake up to{" "}
+          <span className="rise">what&apos;s next</span> together.
+        </FloatText>
 
-        <Reveal delay={150}>
-          <p className="mt-6 max-w-xl text-sm leading-relaxed text-white/55 sm:text-base">
-            Product idea? A platform that needs building? A system that needs
-            rewiring? Bring it. I reply fast — pick your channel.
-          </p>
-        </Reveal>
+        <FloatText
+          as="p"
+          y={14}
+          className="mt-6 max-w-xl text-sm leading-relaxed text-white/55 sm:text-base"
+        >
+          Product idea? A platform that needs building? A system that needs
+          rewiring? Bring it. I reply fast — pick your channel.
+        </FloatText>
 
         <Reveal delay={220}>
           <div className="mt-12 grid w-full max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
