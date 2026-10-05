@@ -2,7 +2,7 @@ import Image from "next/image";
 import { site } from "@/data/site";
 import { count, categories } from "@/data/projects";
 import { ArrowDownIcon, ArrowUpRightIcon, DownloadIcon } from "@/components/icons";
-import HeroStage from "@/components/HeroStage";
+import HeroStage2 from "@/components/HeroStage2";
 
 export default function Hero() {
   const techCount = site.skills.reduce((n, g) => n + g.items.length, 0);
@@ -18,7 +18,7 @@ export default function Hero() {
       <div className="grid-lines absolute inset-0" />
       <div className="sun-glow absolute inset-0" />
 
-      <HeroStage>
+      <HeroStage2>
         <div className="relative flex min-h-[100svh] flex-col justify-end px-6 pb-12 pt-24 lg:w-1/2">
           <div className="mb-6 flex items-center gap-4">
             <Image
@@ -86,7 +86,7 @@ export default function Hero() {
             ))}
           </div>
         </div>
-      </HeroStage>
+      </HeroStage2>
     </section>
   );
 }
