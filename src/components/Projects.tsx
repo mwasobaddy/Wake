@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { categories, projects, repoUrl, type Category } from "@/data/projects";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
+import FloatText, { refreshFloats } from "@/components/FloatText";
 import SpotlightCard from "@/components/SpotlightCard";
 import { ArrowUpRightIcon, GitHubIcon } from "@/components/icons";
 
@@ -32,14 +33,21 @@ function ProjectCard({
         </div>
       </div>
 
-      <h3 className="text-2xl font-bold tracking-tight group-hover:text-white">
+      <FloatText as="h3" split="char" y={18} className="text-2xl font-bold tracking-tight group-hover:text-white">
         {project.name}
-      </h3>
-      <p className="mt-1 text-sm text-white/50">{project.tagline}</p>
+      </FloatText>
+      <FloatText as="p" y={12} className="mt-1 text-sm text-white/50">
+        {project.tagline}
+      </FloatText>
 
-      <p className="mt-4 flex-1 text-sm leading-relaxed text-white/45">
+      <FloatText
+        as="p"
+        y={10}
+        stagger={0.02}
+        className="mt-4 flex-1 text-sm leading-relaxed text-white/45"
+      >
         {project.description}
-      </p>
+      </FloatText>
 
       <div className="mt-5 flex flex-wrap gap-1.5">
         {project.stack.map((tech) => (
@@ -89,6 +97,12 @@ export default function Projects() {
     [active],
   );
 
+  // Filtering re-flows the grid, so the word floats that already measured
+  // themselves against the old layout need to measure again.
+  useEffect(() => {
+    refreshFloats();
+  }, [active]);
+
   return (
     <section id="projects" className="relative scroll-mt-16 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6">
@@ -131,15 +145,17 @@ export default function Projects() {
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((project, i) => (
-            <Reveal key={project.slug} delay={(i % 3) * 70} className="h-full">
-              <SpotlightCard className="h-full">
-                <ProjectCard project={project} index={i} />
-              </SpotlightCard>
-            </Reveal>
+            <SpotlightCard key={project.slug} className="h-full">
+              <ProjectCard project={project} index={i} />
+            </SpotlightCard>
           ))}
         </div>
 
-        <p className="mt-12 font-mono text-xs uppercase tracking-[0.22em] text-white/35">
+        <FloatText
+          as="p"
+          y={10}
+          className="mt-12 font-mono text-xs uppercase tracking-[0.22em] text-white/35"
+        >
           [{list.length} / {projects.length}] builds shown —{" "}
           <a
             href="https://github.com/mwasobaddy"
@@ -149,7 +165,7 @@ export default function Projects() {
           >
             more on GitHub
           </a>
-        </p>
+        </FloatText>
       </div>
     </section>
   );
