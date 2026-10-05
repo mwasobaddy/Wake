@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { categories, projects, repoUrl, type Category } from "@/data/projects";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
+import SpotlightCard from "@/components/SpotlightCard";
 import { ArrowUpRightIcon, GitHubIcon } from "@/components/icons";
 
 function ProjectCard({
@@ -14,7 +15,7 @@ function ProjectCard({
   index: number;
 }) {
   return (
-    <article className="group relative flex flex-col border border-line bg-coal/50 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-wake/70 hover:bg-coal">
+    <article className="group relative flex h-full flex-col border border-line bg-coal/50 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-wake/70 hover:bg-coal">
       <span className="absolute left-0 top-0 h-0.5 w-0 bg-wake transition-all duration-300 group-hover:w-full" />
 
       <div className="mb-5 flex items-start justify-between">
@@ -131,7 +132,9 @@ export default function Projects() {
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((project, i) => (
             <Reveal key={project.slug} delay={(i % 3) * 70} className="h-full">
-              <ProjectCard project={project} index={i} />
+              <SpotlightCard className="h-full">
+                <ProjectCard project={project} index={i} />
+              </SpotlightCard>
             </Reveal>
           ))}
         </div>
