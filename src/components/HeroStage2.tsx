@@ -519,12 +519,12 @@ function SceneContent() {
 
   return (
     <>
-      {/* Key: warm, high front-right. The only shadow caster, so the shadow map
-          stays clean and the figure gets one readable light direction. */}
+      {/* Key: neutral, high front-right. The only shadow caster, so the shadow
+          map stays clean and the figure gets one readable light direction. */}
       <directionalLight
         position={[3.2, 5.2, 4.2]}
         intensity={3.1}
-        color="#fff2e2"
+        color="#ffffff"
         castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-camera-left={-3.4}
@@ -548,23 +548,25 @@ function SceneContent() {
         intensity={9}
         distance={11}
         decay={1.7}
-        color="#ffe0b0"
+        color="#ffffff"
       />
       {/* The bulb itself. Unlit, so it glows at full value instead of being
           dimmed by the exposure of everything around it. */}
       <mesh ref={bulbRef} position={[0, 3.1, 0.35]}>
         <sphereGeometry args={[0.1, 20, 14]} />
-        <meshBasicMaterial color="#fff0d0" toneMapped={false} />
+        <meshBasicMaterial color="#fff8ee" toneMapped={false} />
       </mesh>
-      {/* Kicker: hot orange from behind-left. On a figure this is the light that
-          does the work — it draws the edge of the shoulder and cheek. */}
-      <directionalLight position={[-4.2, 2.6, -4.6]} intensity={2.5} color="#ff7a26" />
+      {/* Kicker: from behind-left. On a figure this is the light that does the
+          work — it draws the edge of the shoulder and cheek. Kept neutral so it
+          separates by brightness rather than by hue. */}
+      <directionalLight position={[-4.2, 2.6, -4.6]} intensity={2.5} color="#ffffff" />
       {/* Bounce: low and soft from the front, so the jaw and eye sockets do not
           go dead on the shadow side of the face. */}
-      <directionalLight position={[0.8, -1.6, 3.4]} intensity={0.55} color="#ffb37a" />
-      {/* Sky over the orange floor bounce. */}
-      <hemisphereLight intensity={0.7} color="#ffd3ab" groundColor="#ff5c00" />
-      <ambientLight intensity={0.22} color="#ffc79a" />
+      <directionalLight position={[0.8, -1.6, 3.4]} intensity={0.55} color="#ffffff" />
+      {/* Sky over a neutral floor bounce. The ground below is still orange, but
+          tinting the hemisphere with it was what pushed the whole figure warm. */}
+      <hemisphereLight intensity={0.7} color="#ffffff" groundColor="#d8d8d8" />
+      <ambientLight intensity={0.22} color="#ffffff" />
 
       {/* Ground: a plain disc, no backdrop wall. The figure stands on it and
           reads against the dark page from every angle. */}
@@ -747,20 +749,23 @@ export default function HeroStage2({ children }: { children: ReactNode }) {
             // main cue that their feet are on the ground.
             gl.shadowMap.type = THREE.VSMShadowMap;
 
-            // Warm orange IBL so reflections and ambient bounce match the ground.
+            // Neutral IBL. An environment map tints every diffuse and specular
+            // surface in the scene, so an orange one washes the whole figure
+            // warm no matter how neutral the individual lights are. Kept dim:
+            // it is here to lift the shadows, not to light the set.
             const pmrem = new THREE.PMREMGenerator(gl);
             const envScene = new THREE.Scene();
             const shell = new THREE.Mesh(
               new THREE.BoxGeometry(20, 20, 20),
               new THREE.MeshBasicMaterial({
-                color: "#ff5c00",
+                color: "#dcdcdc",
                 side: THREE.BackSide,
               }),
             );
             envScene.add(shell);
             const target = pmrem.fromScene(envScene, 0.04);
             scene.environment = target.texture;
-            scene.environmentIntensity = 0.42;
+            scene.environmentIntensity = 0.32;
             pmrem.dispose();
             shell.geometry.dispose();
             (shell.material as THREE.Material).dispose();
@@ -782,32 +787,45 @@ export default function HeroStage2({ children }: { children: ReactNode }) {
         {children}
       </div>
 
-      <div
-        ref={hintRef}
-        className="pointer-events-none absolute left-6 top-20 z-20 font-mono text-[10px] uppercase tracking-[0.3em] text-white/40"
-      >
-        drag · turn · zoom
+
+
+      <div className="pointer-events-none absolute top-20 inset-0 z-20 h-fit w-full flex justify-center">
+        <div
+          ref={hintRef}
+          className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40"
+        >
+          drag · turn · zoom
+        </div>
       </div>
 
-      {/* Masked controls: difference blend keeps them legible over both the
-          orange ground and the dark page. */}
-      {mode === "interactive" ? (
-        <button
-          type="button"
-          onClick={toScroll}
-          className="absolute right-6 top-20 z-30 cursor-pointer bg-white px-5 py-3 font-mono text-xs uppercase tracking-[0.18em] text-black mix-blend-difference"
-        >
-          Continue to scroll
-        </button>
-      ) : (
-        <button
-          type="button"
-          onClick={toInteractive}
-          className="absolute right-6 top-20 z-30 cursor-pointer bg-white px-5 py-3 font-mono text-xs uppercase tracking-[0.18em] text-black mix-blend-difference"
-        >
-          Make interactive
-        </button>
-      )}
+      {/* Centred, but deliberately NO z-index on this wrapper. mix-blend-mode
+          blends against the backdrop within the nearest stacking context, and
+          position:absolute with a z-index creates one — which would cut the
+          button off from the canvas behind it and leave it flat white. With
+          z-index auto there is no context, the blend reaches the whole section,
+          and the wrapper still paints above the canvas by DOM order. */}
+      <div className="pointer-events-none absolute top-30 inset-0 h-fit w-full flex justify-center">
+        {/* Masked controls: difference blend keeps them legible over both the
+            lit floor and the dark page. pointer-events-auto is required on the
+            button itself, since it inherits none from this wrapper. */}
+        {mode === "interactive" ? (
+          <button
+            type="button"
+            onClick={toScroll}
+            className="pointer-events-auto cursor-pointer bg-white px-5 py-3 font-mono text-xs uppercase tracking-[0.18em] text-black mix-blend-difference"
+          >
+            Continue to scroll
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={toInteractive}
+            className="pointer-events-auto cursor-pointer bg-white px-5 py-3 font-mono text-xs uppercase tracking-[0.18em] text-black mix-blend-difference"
+          >
+            Make interactive
+          </button>
+        )}
+      </div>
     </>
   );
 }
