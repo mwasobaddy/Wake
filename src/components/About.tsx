@@ -1,6 +1,7 @@
 import { site } from "@/data/site";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
+import FloatText from "@/components/FloatText";
 
 export default function About() {
   return (
@@ -11,26 +12,24 @@ export default function About() {
         </div>
 
         <div className="space-y-8">
-          <Reveal>
-            <div className="space-y-5 text-base leading-relaxed text-white/65">
-              <p>
-                {site.name} is the build studio of {site.owner} — a full-stack
-                engineer based in {site.location} who ships end-to-end: product
-                thinking, backend systems, interfaces, and the deployment run.
-              </p>
-              <p>
-                The portfolio spans government innovation platforms (KeNHAVATE),
-                proptech &amp; fintech built for the Kenyan market (MaliManager
-                with M-Pesa), AI tooling (Harmonia-AI, the AI invoice generator),
-                community platforms, and mobile apps. Twenty-five builds and
-                counting.
-              </p>
-              <p>
-                The name says it all: Wake. Sharp, energetic, and a little
-                orange — built for the dawn shift, when momentum counts.
-              </p>
-            </div>
-          </Reveal>
+          <FloatText as="div" y={16} stagger={0.03} className="space-y-5 text-base leading-relaxed text-white/65">
+            <p>
+              {site.name} is the build studio of {site.owner} — a full-stack
+              engineer based in {site.location} who ships end-to-end: product
+              thinking, backend systems, interfaces, and the deployment run.
+            </p>
+            <p>
+              The portfolio spans government innovation platforms (KeNHAVATE),
+              proptech &amp; fintech built for the Kenyan market (MaliManager
+              with M-Pesa), AI tooling (Harmonia-AI, the AI invoice generator),
+              community platforms, and mobile apps. Twenty-five builds and
+              counting.
+            </p>
+            <p>
+              The name says it all: Wake. Sharp, energetic, and a little
+              orange — built for the dawn shift, when momentum counts.
+            </p>
+          </FloatText>
 
           <Reveal delay={80}>
             <div className="border border-line bg-coal/50 p-6">
@@ -43,9 +42,13 @@ export default function About() {
                     key={group.group}
                     className="grid gap-2 sm:grid-cols-[130px_1fr]"
                   >
-                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/35">
+                    <FloatText
+                      as="p"
+                      y={10}
+                      className="font-mono text-[10px] uppercase tracking-[0.18em] text-white/35"
+                    >
                       {group.group}
-                    </p>
+                    </FloatText>
                     <div className="flex flex-wrap gap-1.5">
                       {group.items.map((item) => (
                         <span
@@ -62,12 +65,14 @@ export default function About() {
             </div>
           </Reveal>
 
-          <Reveal delay={140}>
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-white/40">
-              Currently: shipping products that move real money, real people,
-              and real ears — one commit at a time.
-            </p>
-          </Reveal>
+          <FloatText
+            as="p"
+            y={12}
+            className="font-mono text-xs uppercase tracking-[0.2em] text-white/40"
+          >
+            Currently: shipping products that move real money, real people,
+            and real ears — one commit at a time.
+          </FloatText>
         </div>
       </div>
     </section>
