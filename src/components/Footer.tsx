@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { site } from "@/data/site";
+import FloatText from "@/components/FloatText";
 
 const links = [
   { label: "Email", href: `mailto:${site.email}` },
@@ -36,9 +37,13 @@ export default function Footer() {
             </a>
           ))}
         </div>
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
+        <FloatText
+          as="p"
+          y={10}
+          className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/40"
+        >
           Built with Next.js · Wake up and build.
-        </p>
+        </FloatText>
       </div>
     </footer>
   );
