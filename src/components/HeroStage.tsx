@@ -323,32 +323,110 @@ function SceneContent() {
   );
 }
 
+type Mode = "interactive" | "scroll";
+
 export default function HeroStage({ children }: { children: ReactNode }) {
   const stageRef = useRef<HTMLDivElement>(null);
   const wordsRef = useRef<HTMLDivElement>(null);
   const hintRef = useRef<HTMLDivElement>(null);
-  const [mode, setMode] = useState<"interactive" | "scroll">("interactive");
+  const entranceRef = useRef<gsap.core.Tween | null>(null);
+  const [mode, setMode] = useState<Mode>("interactive");
 
   const prefersReducedMotion = () =>
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const applyScrollState = useCallback(() => {
+  // Where the stage and the model sit in each mode. Tablets and below have no
+  // room for copy beside the scene, so scrolling slides the whole stage off to
+  // the left and hides it, handing the words the full width. Desktop keeps the
+  // scene on show, nudged right and scaled down to sit beside the copy.
+  // Both x and xPercent are always written so a breakpoint change mid-session
+  // cannot leave a stale offset on the other axis.
+  const targetsFor = (next: Mode) => {
+    const scrolled = next === "scroll";
     const lg = window.matchMedia("(min-width: 1024px)").matches;
-    gsap.set(stageRef.current, {
-      x: lg ? window.innerWidth * 0.25 : 0,
-      y: lg ? 0 : window.innerHeight * 0.05,
-      scale: lg ? 0.94 : 1,
-    });
-    sceneBus.setModelFit(sceneBus.revealFitK);
-    gsap.set(wordsRef.current, { autoAlpha: 1, x: 0, filter: "blur(0px)" });
-    gsap.set(hintRef.current, { autoAlpha: 0 });
-  }, []);
+    return {
+      lg,
+      stage: lg
+        ? {
+            x: scrolled ? window.innerWidth * 0.25 : 0,
+            xPercent: 0,
+            y: 0,
+            scale: scrolled ? 0.94 : 1,
+            autoAlpha: 1,
+          }
+        : {
+            x: 0,
+            // The stage is viewport-sized, so -104% clears the frame with a
+            // little slack and no sliver of canvas left on screen.
+            xPercent: scrolled ? -104 : 0,
+            y: 0,
+            scale: 1,
+            autoAlpha: scrolled ? 0 : 1,
+          },
+      // Only desktop shrinks the model; on small screens it is off-screen anyway,
+      // so the scene can stay exactly where it was and slide back untouched.
+      fit: lg && scrolled ? sceneBus.revealFitK : 1,
+    };
+  };
 
-  const applyInteractiveState = useCallback(() => {
-    gsap.set(stageRef.current, { x: 0, y: 0, scale: 1 });
-    sceneBus.setModelFit(1);
-    gsap.set(wordsRef.current, { autoAlpha: 0, x: -64, filter: "blur(6px)" });
-    gsap.set(hintRef.current, { autoAlpha: 1 });
+  // One place that drives the stage, the model fit, the words and the hint, so
+  // the reduced-motion path and the animated path cannot fall out of step.
+  const move = useCallback((next: Mode) => {
+    // A click mid-entrance would otherwise let the entrance tween re-reveal the
+    // stage while it is meant to be leaving.
+    entranceRef.current?.kill();
+
+    const { lg, stage, fit } = targetsFor(next);
+    const scrolled = next === "scroll";
+    const from = scrolled ? 1 : sceneBus.revealFitK;
+
+    if (prefersReducedMotion()) {
+      gsap.set(stageRef.current, stage);
+      gsap.set(
+        wordsRef.current,
+        scrolled
+          ? { autoAlpha: 1, x: 0, filter: "blur(0px)" }
+          : { autoAlpha: 0, x: -64, filter: "blur(6px)" },
+      );
+      gsap.set(hintRef.current, { autoAlpha: scrolled ? 0 : 1 });
+      sceneBus.setModelFit(fit);
+      return;
+    }
+
+    gsap.to(stageRef.current, { ...stage, duration: 1.5, ease: "power3.inOut" });
+
+    if (fit === from) {
+      sceneBus.setModelFit(fit);
+    } else {
+      const t = { k: from };
+      gsap.to(t, {
+        k: fit,
+        duration: 1.5,
+        ease: "power3.inOut",
+        onUpdate: () => sceneBus.setModelFit(t.k),
+      });
+    }
+
+    if (scrolled) {
+      gsap.to(wordsRef.current, {
+        autoAlpha: 1,
+        x: 0,
+        filter: "blur(0px)",
+        duration: 1,
+        ease: "power3.out",
+        delay: lg ? 0.1 : 0,
+      });
+      gsap.to(hintRef.current, { autoAlpha: 0, duration: 0.3 });
+    } else {
+      gsap.to(wordsRef.current, {
+        autoAlpha: 0,
+        x: -64,
+        filter: "blur(6px)",
+        duration: 0.8,
+        ease: "power2.in",
+      });
+      gsap.to(hintRef.current, { autoAlpha: 1, duration: 0.4, delay: 0.5 });
+    }
   }, []);
 
   // "Continue to scroll": run the reveal, then hand the page back to the user
@@ -358,37 +436,8 @@ export default function HeroStage({ children }: { children: ReactNode }) {
     sceneBus.revealed = true;
     setMode("scroll");
     if (sceneBus.controls) sceneBus.controls.enabled = false;
-
-    if (prefersReducedMotion()) {
-      applyScrollState();
-      return;
-    }
-
-    const lg = window.matchMedia("(min-width: 1024px)").matches;
-    gsap.to(stageRef.current, {
-      x: lg ? window.innerWidth * 0.25 : 0,
-      y: lg ? 0 : window.innerHeight * 0.05,
-      scale: lg ? 0.94 : 1,
-      duration: 1.5,
-      ease: "power3.inOut",
-    });
-    const fit = { k: 1 };
-    gsap.to(fit, {
-      k: sceneBus.revealFitK,
-      duration: 1.5,
-      ease: "power3.inOut",
-      onUpdate: () => sceneBus.setModelFit(fit.k),
-    });
-    gsap.to(wordsRef.current, {
-      autoAlpha: 1,
-      x: 0,
-      filter: "blur(0px)",
-      duration: 1,
-      ease: "power3.out",
-      delay: lg ? 0.1 : 0,
-    });
-    gsap.to(hintRef.current, { autoAlpha: 0, duration: 0.3 });
-  }, [applyScrollState]);
+    move("scroll");
+  }, [move]);
 
   // "Make interactive": reverse everything and give control back.
   const toInteractive = useCallback(() => {
@@ -396,35 +445,8 @@ export default function HeroStage({ children }: { children: ReactNode }) {
     sceneBus.revealed = false;
     setMode("interactive");
     if (sceneBus.controls) sceneBus.controls.enabled = true;
-
-    if (prefersReducedMotion()) {
-      applyInteractiveState();
-      return;
-    }
-
-    gsap.to(stageRef.current, {
-      x: 0,
-      y: 0,
-      scale: 1,
-      duration: 1.5,
-      ease: "power3.inOut",
-    });
-    const fit = { k: sceneBus.revealFitK };
-    gsap.to(fit, {
-      k: 1,
-      duration: 1.5,
-      ease: "power3.inOut",
-      onUpdate: () => sceneBus.setModelFit(fit.k),
-    });
-    gsap.to(wordsRef.current, {
-      autoAlpha: 0,
-      x: -64,
-      filter: "blur(6px)",
-      duration: 0.8,
-      ease: "power2.in",
-    });
-    gsap.to(hintRef.current, { autoAlpha: 1, duration: 0.4, delay: 0.5 });
-  }, [applyInteractiveState]);
+    move("interactive");
+  }, [move]);
 
   useEffect(() => {
     const entrance = gsap.fromTo(
@@ -432,6 +454,7 @@ export default function HeroStage({ children }: { children: ReactNode }) {
       { autoAlpha: 0, scale: 0.96, y: 24 },
       { autoAlpha: 1, scale: 1, y: 0, duration: 1.4, ease: "power3.out" },
     );
+    entranceRef.current = entrance;
     gsap.set(wordsRef.current, { autoAlpha: 0, x: -64, filter: "blur(6px)" });
     gsap.set(hintRef.current, { autoAlpha: 1 });
 
@@ -444,6 +467,7 @@ export default function HeroStage({ children }: { children: ReactNode }) {
     return () => {
       window.removeEventListener("scroll", onScroll);
       entrance.kill();
+      entranceRef.current = null;
     };
   }, [toScroll]);
 
@@ -452,7 +476,7 @@ export default function HeroStage({ children }: { children: ReactNode }) {
       <div
         ref={stageRef}
         className="absolute inset-0 z-0 will-change-transform"
-        style={{ touchAction: "pan-y" }}
+        style={{ touchAction: "pan-y", pointerEvents: mode === "scroll" ? "none" : "auto" }}
       >
         <Canvas
           shadows
