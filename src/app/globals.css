@@ -84,6 +84,45 @@ html {
   transform: none;
 }
 
+/* ---------- spotlight card ---------- */
+
+/* The React Bits SpotlightCard, driven by --spotlight-x/y from the component.
+   isolation keeps the negative z-index glow inside this card's own background
+   rather than letting it fall behind an ancestor. */
+.spotlight {
+  --spotlight-x: 50%;
+  --spotlight-y: 50%;
+  --spotlight-color: rgba(255, 92, 0, 0.14);
+  position: relative;
+  isolation: isolate;
+}
+
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  background: radial-gradient(
+    circle at var(--spotlight-x) var(--spotlight-y),
+    var(--spotlight-color),
+    transparent 65%
+  );
+}
+
+.spotlight[data-spotlight="on"]::before {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotlight::before {
+    transition: none;
+  }
+}
+
 /* ---------- marquee ---------- */
 
 @keyframes marquee {
