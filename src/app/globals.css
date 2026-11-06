@@ -1,0 +1,262 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Xeraki — Cobalt & Amber tokens
+   Canonical spec: doc/branding.md (§4 CSS Tokens).
+   Every value below is copied from that spec. Do not invent hex values here:
+   add a token to the spec first, then mirror it.
+   Components reference token names, never raw hex, so both themes follow.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* neutrals */
+  --bg-base: #f5f7fc;
+  --bg-surface: #ffffff;
+  --bg-raised: #ffffff;
+  --bg-top: #ffffff;
+  --bg-sunken: #ebeff8;
+  --bg-disabled: #e8ecf5;
+  --skeleton: #e1e7f3;
+  --border: #dde3f0;
+  --border-strong: #c3cce0;
+  --border-input: #7b879f;
+  --text: #0f172a;
+  --text-muted: #55607a;
+  --overlay: rgb(15 23 42 / 0.5);
+
+  /* cobalt */
+  --blue-fill: #2f4fe0;
+  --on-blue: #ffffff;
+  --blue-hover: #2640bd;
+  --blue-text: #2640bd;
+  --blue-tint: #dce6ff;
+  --blue-tint-subtle: #eef3ff;
+  --on-blue-tint: #1f3391;
+  --focus-ring: #2f4fe0;
+  --blue-deep: #121c4d;
+  --on-band: #e8edf8;
+  --band-link: #ffc84d;
+  --focus-ring-band: #a3b9ff;
+
+  /* amber */
+  --amber-fill: #ffb627;
+  --on-amber: #0b1220;
+  --amber-hover: #f59e0b;
+  --amber-border: #c77d0a;
+  --amber-text: #92400e;
+  --amber-tint: #fff3d6;
+  --on-amber-tint: #92400e;
+  --amber-graphic: #c77d0a;
+
+  /* status */
+  --status-success: #137a42;
+  --status-success-bg: #ddf5e6;
+  --status-success-fg: #0b5130;
+  --status-warning: #b45309;
+  --status-warning-bg: #fff3d6;
+  --status-warning-fg: #92400e;
+  --status-danger: #c62828;
+  --status-danger-bg: #fde4e4;
+  --status-danger-fg: #7a1414;
+  --status-info: #2f4fe0;
+  --status-info-bg: #dce6ff;
+  --status-info-fg: #1f3391;
+  --status-neutral: #55607a;
+  --status-neutral-bg: #ebeff8;
+  --status-neutral-fg: #3b4560;
+  --action-danger: #c62828;
+  --on-danger: #ffffff;
+
+  /* dev surfaces */
+  --code-bg: #0e1730;
+  --code-text: #e8edf8;
+  --syn-keyword: #93b1ff;
+  --syn-string: #5eead4;
+  --syn-function: #ffc857;
+  --syn-number: #f9a8d4;
+  --syn-type: #c4b5fd;
+  --syn-comment: #7f8ca8;
+  --term-prompt: #4ade80;
+
+  /* charts */
+  --chart-1: #2f4fe0;
+  --chart-2: #c77d0a;
+  --chart-3: #0f766e;
+  --chart-4: #c026d3;
+  --chart-other: #55607a;
+
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-lg: 16px;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-base: #0b1220;
+  --bg-surface: #111a2e;
+  --bg-raised: #18233b;
+  --bg-top: #212e4a;
+  --bg-sunken: #070c16;
+  --bg-disabled: #141d33;
+  --skeleton: #1d2842;
+  --border: #26324d;
+  --border-strong: #36456a;
+  --border-input: #70809f;
+  --text: #e8edf8;
+  --text-muted: #9aa6c0;
+  --overlay: rgb(0 0 0 / 0.6);
+
+  --blue-fill: #7c9bff;
+  --on-blue: #0b1220;
+  --blue-hover: #a3b9ff;
+  --blue-text: #a3b9ff;
+  --blue-tint: #16224a;
+  --blue-tint-subtle: #0f1a3a;
+  --on-blue-tint: #bcd0ff;
+  --focus-ring: #7c9bff;
+
+  --amber-hover: #ffc85c;
+  --amber-border: #ffb627;
+  --amber-text: #ffb627;
+  --amber-tint: #3a2706;
+  --on-amber-tint: #ffd58a;
+  --amber-graphic: #ffb627;
+
+  --status-success: #4ade80;
+  --status-success-bg: #0c2e1c;
+  --status-success-fg: #a7f3c4;
+  --status-warning: #ffb627;
+  --status-warning-bg: #3a2706;
+  --status-warning-fg: #ffd58a;
+  --status-danger: #ff7b7b;
+  --status-danger-bg: #3b1418;
+  --status-danger-fg: #ffc9c9;
+  --status-info: #7c9bff;
+  --status-info-bg: #16224a;
+  --status-info-fg: #bcd0ff;
+  --status-neutral: #9aa6c0;
+  --status-neutral-bg: #18233b;
+  --status-neutral-fg: #c3cce0;
+  --action-danger: #ff7b7b;
+  --on-danger: #0b1220;
+
+  --code-bg: #070c16;
+
+  --chart-1: #7c9bff;
+  --chart-2: #ffb627;
+  --chart-3: #2dd4bf;
+  --chart-4: #e879f9;
+  --chart-other: #9aa6c0;
+}
+
+/* Expose the tokens to Tailwind so `bg-base`, `text-ink`, `border-border`,
+   `text-blue-text`, `rounded-card` etc. resolve to the live theme values
+   rather than being baked into a class at build time. */
+@theme inline {
+  --color-base: var(--bg-base);
+  --color-surface: var(--bg-surface);
+  --color-raised: var(--bg-raised);
+  --color-top: var(--bg-top);
+  --color-sunken: var(--bg-sunken);
+  --color-disabled: var(--bg-disabled);
+  --color-skeleton: var(--skeleton);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-border-input: var(--border-input);
+
+  --color-ink: var(--text);
+  --color-muted: var(--text-muted);
+
+  --color-blue-fill: var(--blue-fill);
+  --color-blue-hover: var(--blue-hover);
+  --color-blue-text: var(--blue-text);
+  --color-blue-tint: var(--blue-tint);
+  --color-blue-tint-subtle: var(--blue-tint-subtle);
+  --color-on-blue: var(--on-blue);
+  --color-on-blue-tint: var(--on-blue-tint);
+  --color-blue-deep: var(--blue-deep);
+  --color-on-band: var(--on-band);
+  --color-band-link: var(--band-link);
+
+  --color-amber-fill: var(--amber-fill);
+  --color-amber-hover: var(--amber-hover);
+  --color-amber-border: var(--amber-border);
+  --color-amber-text: var(--amber-text);
+  --color-amber-tint: var(--amber-tint);
+  --color-on-amber: var(--on-amber);
+  --color-on-amber-tint: var(--on-amber-tint);
+
+  --color-focus-ring: var(--focus-ring);
+  --color-focus-ring-band: var(--focus-ring-band);
+
+  --radius-card: var(--radius);
+  --radius-control: var(--radius-sm);
+  --radius-panel: var(--radius-lg);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  html[data-theme="dark"] {
+    color-scheme: dark;
+  }
+
+  html,
+  body {
+    background-color: var(--bg-base);
+    color: var(--text);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Body copy should never be pure black on pure white; the tokens already
+     handle that, this is only the default rhythm. */
+  ::selection {
+    background-color: var(--blue-tint);
+    color: var(--on-blue-tint);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* On the deep band the default ring is too dark to see. */
+  .on-band :focus-visible,
+  .on-band:focus-visible {
+    outline-color: var(--focus-ring-band);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* The nav is translucent in both themes; colour-mix keeps the tint correct
+     as the theme flips without hard-coding an rgba per mode. */
+  .nav-surface {
+    background-color: color-mix(in srgb, var(--bg-raised) 88%, transparent);
+    backdrop-filter: blur(12px) saturate(1.4);
+  }
+}
