@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { site } from "@/data/site";
@@ -31,23 +31,46 @@ function MenuIcon({ open }: { open: boolean }) {
 
 export default function Nav() {
   const pathname = usePathname();
-  // The menu is keyed to the path it was opened on, so navigating closes it
-  // without an effect: the stored path stops matching and `open` goes false.
+  // Keyed to the path it was opened on, so a navigation closes it without an
+  // effect: the stored path stops matching and `open` goes false.
   const [openFor, setOpenFor] = useState<string | null>(null);
   const open = openFor === pathname;
+
+  const sheetRef = useRef<HTMLDialogElement | null>(null);
 
   function closeMenu() {
     setOpenFor(null);
   }
 
+  // A native <dialog> opened with showModal() gives us the focus trap, the
+  // Escape key, the inert background and the top layer for free. Re-implementing
+  // those by hand is where mobile menus usually go wrong.
+  useEffect(() => {
+    const dialog = sheetRef.current;
+    if (!dialog) return;
+
+    if (open && !dialog.open) dialog.showModal();
+    if (!open && dialog.open) dialog.close();
+  }, [open]);
+
   useEffect(() => {
     if (!open) return;
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpenFor(null);
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
   }, [open]);
+
+  // A sheet opened on a phone should not survive into a desktop viewport.
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 768px)");
+    const onChange = () => {
+      if (media.matches) setOpenFor(null);
+    };
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+  }, []);
 
   return (
     <header className="nav-surface sticky top-0 z-40 border-b border-border">
@@ -90,9 +113,9 @@ export default function Nav() {
           <ThemeToggle />
           {/*
             Cobalt, not amber. The hero owns the single amber CTA for this
-            viewport (§5.1 "one per view"), and §5.3's nav CTA would otherwise
-            make two. Swapping these two is a one-class change if you would
-            rather the nav held the amber slot.
+            viewport, and §5.3's nav CTA would otherwise make two. Swapping
+            these two is a one-class change if you would rather the nav held
+            the amber slot.
           */}
           <Link
             href="/#contact"
@@ -107,42 +130,77 @@ export default function Nav() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
-            className="inline-flex size-11 items-center justify-center rounded-pill text-muted transition-colors hover:bg-sunken hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring md:hidden"
+            className="inline-flex size-11 items-center justify-center rounded-full text-muted transition-colors hover:bg-sunken hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring md:hidden"
           >
             <MenuIcon open={open} />
           </button>
         </div>
       </div>
 
-      {open ? (
-        <div
-          id="mobile-nav"
-          className="absolute inset-x-0 top-full border-b border-border bg-raised shadow-lg md:hidden"
-        >
-          <nav aria-label="Mobile" className="mx-auto max-w-6xl px-5 pb-4 pt-2 sm:px-8">
+      <dialog
+        ref={sheetRef}
+        id="mobile-nav"
+        aria-labelledby="mobile-nav-title"
+        onClose={closeMenu}
+        onClick={(event) => {
+          // Clicking the backdrop targets the dialog itself; clicking inside
+          // targets a child.
+          if (event.target === event.currentTarget) closeMenu();
+        }}
+        className="sheet md:hidden"
+      >
+        <div className="flex h-dvh flex-col bg-raised text-ink">
+          <div className="flex h-16 shrink-0 items-center justify-between border-b border-border px-5">
+            <Link
+              href="/"
+              onClick={closeMenu}
+              className="inline-flex items-center gap-2.5 rounded-control text-lg font-semibold tracking-tight focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus-ring"
+            >
+              <Mark height={26} className="shrink-0" cutsId="sheet" />
+              <span id="mobile-nav-title">{site.name}</span>
+            </Link>
+            <button
+              type="button"
+              onClick={closeMenu}
+              aria-label="Close menu"
+              className="inline-flex size-11 items-center justify-center rounded-full text-muted transition-colors hover:bg-sunken hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+            >
+              <MenuIcon open />
+            </button>
+          </div>
+
+          <nav aria-label="Mobile" className="flex-1 overflow-y-auto px-5 py-4">
             <ul className="flex flex-col">
               {site.nav.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
                     onClick={closeMenu}
-                    className="flex min-h-11 items-center border-b border-border text-sm font-medium text-ink last:border-b-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+                    className="flex min-h-14 items-center border-b border-border text-lg font-medium text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
                   >
                     {item.label}
                   </Link>
                 </li>
               ))}
             </ul>
+
             <Link
               href="/#contact"
               onClick={closeMenu}
-              className="mt-4 inline-flex h-11 w-full items-center justify-center rounded-pill bg-blue-fill px-4 text-sm font-semibold text-on-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+              className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-pill bg-blue-fill px-4 text-sm font-semibold text-on-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
             >
               Book a call
             </Link>
           </nav>
+
+          <div className="shrink-0 border-t border-border px-5 py-4">
+            <p className="inline-flex items-center gap-2 text-xs text-muted">
+              <span className="live-dot size-2 rounded-full bg-red-vivid" />
+              Open for new work
+            </p>
+          </div>
         </div>
-      ) : null}
+      </dialog>
     </header>
   );
 }
