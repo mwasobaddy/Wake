@@ -232,28 +232,28 @@ export function Hero() {
                         </p>
                       </div>
                     </div>,
-                    <div key="profile" className="px-4 pb-2 pt-12 text-center">
-                      <div className="overflow-hidden rounded-2xl bg-blue-tint-subtle ring-1 ring-border">
+                    <div key="profile" className="px-4 pb-2 pt-12 text-left">
+                      <div className="overflow-hidden flex justify-center items-center">
                         <img
                           src="/brand/kelvin.svg"
                           alt="Kelvin Ramsiel, founder of Xeraki"
-                          width={476}
+                          width={381}
                           height={381}
-                          className="aspect-[5/4] w-full object-cover object-top"
+                          className="object-contain object-top h-[190px] w-[190px] rounded-3xl bg-amber-fill ring-1 ring-border"
                         />
                       </div>
-                      <p className="mt-4 text-lg font-semibold tracking-tight text-ink">
-                        Kelvin Ramsiel
+                      <p className="mt-1 text-lg font-semibold tracking-tight text-ink">
+                        Kelvin Mwangi Wanjohi
                       </p>
                       <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
                         Founder &amp; lead engineer
                       </p>
-                      <p className="mx-auto mt-2 max-w-[210px] text-balance text-[13px] leading-relaxed text-muted">
+                      <p className="mt-1 max-w-[210px] text-balance text-[13px] leading-relaxed text-muted">
                         I take platforms from an empty repo to production.
                       </p>
                       <ul
                         aria-label="Specialties"
-                        className="mt-3 flex flex-wrap justify-center gap-1.5"
+                        className="mt-1 flex flex-wrap justify-center gap-1.5"
                       >
                         {["Laravel", "Next.js", "React Native", "APIs", "AI", "M-Pesa"].map(
                           (skill) => (
