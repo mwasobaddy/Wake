@@ -231,7 +231,7 @@ Max 4 series + other; vary dash/marker/pattern so series don't rely on hue alone
   --chart-1: #2f4fe0; --chart-2: #c77d0a; --chart-3: #0f766e;
   --chart-4: #c026d3; --chart-other: #55607a;
 
-  --radius: 10px; --radius-sm: 6px; --radius-lg: 16px;
+  --radius: 10px; --radius-sm: 6px; --radius-lg: 16px; --radius-pill: 999px;
 }
 
 [data-theme='dark'] {
@@ -296,7 +296,7 @@ Tailwind v4 mapping (optional): `@theme inline { --color-base: var(--bg-base); -
 | **Danger** | `#C62828` / `#FFFFFF` / `brightness(.92)` | `#FF7B7B` / `#0B1220` / `brightness(1.08)` | Destructive |
 | **Link** | `--blue-text`, underlined | same | Inline actions |
 
-Radius `--radius`, height 40px (44px touch), weight 600. Disabled `opacity .5` + `cursor-not-allowed`. Footer rows: right-aligned, **Cancel left, primary right**. On `--blue-deep` bands: CTA stays amber; outline uses `#E8EDF8` border + text.
+Radius `--radius-pill` (fully rounded), height 40px (44px touch), weight 600. Cards keep `--radius`, inputs `--radius-sm`. Disabled `opacity .5` + `cursor-not-allowed`. Footer rows: right-aligned, **Cancel left, primary right**. On `--blue-deep` bands: CTA stays amber; outline uses `#E8EDF8` border + text.
 
 ### 5.2 Forms
 

@@ -96,7 +96,7 @@ export default function Nav() {
           */}
           <Link
             href="/#contact"
-            className="hidden h-11 items-center rounded-control bg-blue-fill px-4 text-sm font-semibold text-on-blue transition-colors hover:bg-blue-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring sm:inline-flex"
+            className="hidden h-11 items-center rounded-pill bg-blue-fill px-4 text-sm font-semibold text-on-blue transition-colors hover:bg-blue-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring sm:inline-flex"
           >
             Book a call
           </Link>
@@ -107,7 +107,7 @@ export default function Nav() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
-            className="inline-flex size-11 items-center justify-center rounded-control text-muted transition-colors hover:bg-sunken hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring md:hidden"
+            className="inline-flex size-11 items-center justify-center rounded-pill text-muted transition-colors hover:bg-sunken hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring md:hidden"
           >
             <MenuIcon open={open} />
           </button>
@@ -136,7 +136,7 @@ export default function Nav() {
             <Link
               href="/#contact"
               onClick={closeMenu}
-              className="mt-4 inline-flex h-11 w-full items-center justify-center rounded-control bg-blue-fill px-4 text-sm font-semibold text-on-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+              className="mt-4 inline-flex h-11 w-full items-center justify-center rounded-pill bg-blue-fill px-4 text-sm font-semibold text-on-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
             >
               Book a call
             </Link>

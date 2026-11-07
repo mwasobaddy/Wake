@@ -50,7 +50,7 @@ export default function RootLayout({
       <body className="flex min-h-dvh flex-col bg-base text-ink">
         <a
           href="#main"
-          className="sr-only rounded-control bg-blue-fill px-4 py-2 text-sm font-semibold text-on-blue focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50"
+          className="sr-only rounded-pill bg-blue-fill px-4 py-2 text-sm font-semibold text-on-blue focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50"
         >
           Skip to content
         </a>
