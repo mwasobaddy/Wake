@@ -150,6 +150,14 @@ export const site = {
       stack: ["Node.js", "LLM", "PDF"],
     },
   ],
+  contact: {
+    email: "kelvinramsiel@gmail.com",
+    phoneDisplay: "+254 740 252 837",
+    /** E.164 without spaces, for tel: links. */
+    phoneHref: "+254740252837",
+    whatsapp: "https://wa.me/254740252837",
+    location: "Nairobi City, Kenya",
+  },
   footer: {
     columns: [
       {

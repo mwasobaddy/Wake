@@ -47,6 +47,13 @@ const organizationJsonLd = {
   url: siteUrl,
   logo: `${siteUrl}/brand/mark-on-light.svg`,
   description: site.description,
+  email: site.contact.email,
+  telephone: site.contact.phoneHref,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Nairobi",
+    addressCountry: "KE",
+  },
 };
 
 /**

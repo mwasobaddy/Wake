@@ -3,6 +3,7 @@ import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { Work } from "@/components/Work";
 import { About } from "@/components/About";
+import { Contact } from "@/components/Contact";
 
 export const metadata: Metadata = {
   // The layout supplies the title and description; this route only needs its
@@ -17,6 +18,7 @@ export default function Home() {
       <Services />
       <Work />
       <About />
+      <Contact />
     </>
   );
 }

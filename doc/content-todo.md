@@ -26,12 +26,17 @@ Promotion to `/work` and `/work/[slug]` waits on this. See
 
 ### Contact
 
-The contact section is not built. It needs:
+Built with direct links rather than a form, so it works with no backend.
 
-- [ ] Email address
-- [ ] Phone / WhatsApp
-- [ ] City or address
-- [ ] A form destination (email service or endpoint) and a privacy note
+- [x] Email — kelvinramsiel@gmail.com (temporary)
+- [x] Phone / WhatsApp — +254 740 252 837
+- [x] City — Nairobi City, Kenya
+- [ ] **Official studio email on the company domain**, once the domain is
+      registered. This is the one to remember: replace `site.contact.email` in
+      `src/data/site.ts`, which feeds the contact section, the footer and the
+      Organization JSON-LD.
+- [ ] If a form is added later: a destination endpoint or service, plus a
+      privacy note.
 
 ### Claims to confirm
 
