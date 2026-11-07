@@ -1,5 +1,6 @@
 import { Reveal } from "./Reveal";
 import { DotPattern } from "./DotPattern";
+import { WorldMap } from "./WorldMap";
 import { site } from "@/data/site";
 
 export function Contact() {
@@ -102,6 +103,23 @@ export function Contact() {
             </Reveal>
           </div>
         </div>
+
+        <Reveal className="mt-12" delay={100}>
+          <div className="overflow-hidden rounded-panel border border-border bg-surface">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-5 py-3 sm:px-6">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+                Where we are
+              </p>
+              <p className="inline-flex items-center gap-1.5 text-xs text-muted">
+                <span className="size-1.5 rounded-full bg-red-vivid" />
+                {site.contact.location} — working worldwide
+              </p>
+            </div>
+            <div className="px-3 py-4 sm:px-6">
+              <WorldMap />
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
