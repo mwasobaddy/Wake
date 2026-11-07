@@ -5,6 +5,7 @@ import Link from "next/link";
 import gsap from "gsap";
 import { Mark } from "./Mark";
 import { Marquee } from "./Marquee";
+import { FlickeringGrid } from "./FlickeringGrid";
 import { cx } from "@/lib/cx";
 import { site } from "@/data/site";
 
@@ -68,12 +69,12 @@ export function Hero() {
 
   return (
     <section ref={rootRef} className="relative overflow-hidden">
-      {/* Grid + single-hue glow, both decorative. */}
-      <div aria-hidden="true" className="hero-grid pointer-events-none absolute inset-x-0 top-0 h-[620px]" />
+      {/* Single-hue glow behind a living grid, both decorative. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-[460px] bg-[radial-gradient(58%_60%_at_50%_0%,var(--blue-tint-subtle),transparent)]"
       />
+      <FlickeringGrid className="hero-flicker pointer-events-none absolute inset-x-0 top-0 h-[620px]" />
 
       <div className="relative mx-auto max-w-6xl px-5 pb-14 pt-16 sm:px-8 lg:pb-20 lg:pt-24">
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">

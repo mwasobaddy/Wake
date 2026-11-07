@@ -284,14 +284,9 @@
    Motion is CSS only; no animation runtime is added for either.
    ========================================================================== */
 
-.hero-grid {
-  background-image:
-    linear-gradient(to right, var(--border) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
-  background-size: 64px 64px;
-  opacity: 0.55;
-  mask-image: radial-gradient(ellipse 78% 62% at 50% 0%, #000 0%, transparent 76%);
-  -webkit-mask-image: radial-gradient(ellipse 78% 62% at 50% 0%, #000 0%, transparent 76%);
+.hero-flicker {
+  mask-image: radial-gradient(ellipse 82% 70% at 50% 0%, #000 0%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 82% 70% at 50% 0%, #000 0%, transparent 80%);
 }
 
 /* --- Marquee ------------------------------------------------------------- */
