@@ -505,6 +505,19 @@ Four tools are available. They overlap, so the governing rule is **one engine pe
 
 ---
 
+### 9.7 Applied in this build
+
+The hero is the reference implementation, and it splits the work on purpose:
+
+- **GSAP** owns the entrance timeline — eyebrow, headline words, subcopy, actions, panel and marquee, in that order. It is one timeline so the sequence can be retimed in one place.
+- **Anime.js** owns exactly one thing: the idle float of the mark in the studio panel. It touches a different element, so the two engines never fight.
+- **Magic UI's `Marquee`** is adapted, not installed: the source is copied in, restyled to tokens, and its vertical mode dropped. The grid behind the hero is plain CSS, because a decorative background does not justify adding `motion` as a third animation runtime.
+- **Reduced motion** runs none of it: no timeline, no float, no pulse, and the marquee becomes a static wrapped list with the duplicate tracks hidden.
+
+Copying that split for the next section is the intended pattern: one engine per interaction, and CSS wherever CSS is enough.
+
+---
+
 ## 10. Brand mark
 
 The mark is abstract: cobalt forms, a red accent, a single anchor, and a detached dot, with **transparent seams** cut between every shape so the surface shows through. Because it is not tied to a letter, it is always presented with the wordmark; it is not a standalone monogram yet.

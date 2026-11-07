@@ -4,9 +4,10 @@
  */
 export const site = {
   name: "Xeraki",
-  tagline: "A software studio building product platforms and the systems behind them.",
+  tagline:
+    "A product engineering studio building platforms and the systems behind them.",
   description:
-    "Xeraki designs and ships product platforms — the interface, the services behind it, and the deploy that holds under load.",
+    "Xeraki is a product engineering studio. We design and ship platforms — the interface, the services behind it, and the deploy that holds under load.",
   nav: [
     { label: "Work", href: "/#work" },
     { label: "Services", href: "/#services" },
@@ -21,6 +22,12 @@ export const site = {
     "Mobile apps",
     "Data & AI",
     "Cloud & DevOps",
+  ],
+  studioFacts: [
+    { label: "Focus", value: "Product platforms" },
+    { label: "Team", value: "Embedded engineers" },
+    { label: "Base", value: "Nairobi · Remote" },
+    { label: "Engagement", value: "Fixed scope or embedded" },
   ],
   footer: {
     columns: [

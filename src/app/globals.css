@@ -278,3 +278,92 @@
     backdrop-filter: blur(12px) saturate(1.4);
   }
 }
+
+/* ==========================================================================
+   Hero — adapted from Magic UI's Marquee and Animated Grid Pattern (both MIT).
+   Motion is CSS only; no animation runtime is added for either.
+   ========================================================================== */
+
+.hero-grid {
+  background-image:
+    linear-gradient(to right, var(--border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: 0.55;
+  mask-image: radial-gradient(ellipse 78% 62% at 50% 0%, #000 0%, transparent 76%);
+  -webkit-mask-image: radial-gradient(ellipse 78% 62% at 50% 0%, #000 0%, transparent 76%);
+}
+
+/* --- Marquee ------------------------------------------------------------- */
+
+.marquee {
+  --gap: 1rem;
+  --duration: 38s;
+  gap: var(--gap);
+}
+
+.marquee-track {
+  gap: var(--gap);
+  min-width: 100%;
+  animation: marquee-x var(--duration) linear infinite;
+}
+
+.marquee-reverse .marquee-track {
+  animation-direction: reverse;
+}
+
+.marquee-pause-on-hover:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* One full track plus the gap, so the next copy lands exactly where the
+       first began and the loop has no seam. */
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+/* --- Live dot ------------------------------------------------------------ */
+
+.live-dot {
+  animation: live-dot 2.4s ease-in-out infinite;
+}
+
+@keyframes live-dot {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(255 0 0 / 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgb(255 0 0 / 0);
+  }
+}
+
+/* Under reduced motion the marquee becomes a static wrapped list: the
+   duplicate tracks exist only for the loop, so they are hidden, and the first
+   track is allowed to wrap instead of overflowing. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  .marquee-track {
+    animation: none !important;
+    flex-wrap: wrap;
+    min-width: 0;
+    row-gap: 0.5rem;
+  }
+
+  .marquee-track:not(:first-child) {
+    display: none;
+  }
+
+  .live-dot {
+    animation: none !important;
+  }
+}
