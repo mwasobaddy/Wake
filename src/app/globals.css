@@ -525,3 +525,36 @@
     animation: none !important;
   }
 }
+
+/* --- Carousel (dependency-free cross-fade) ---------------------------------
+   Screens share one grid cell, so the viewport is always the tallest
+   screen's height. Inactive screens are visibility-hidden (still laid out,
+   never interactive), the active one fades and slides in. */
+
+.carousel-screen {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateX(28px);
+  visibility: hidden;
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s ease,
+    visibility 0s linear 0.45s;
+}
+
+.carousel-screen[data-active="true"] {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s ease,
+    visibility 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-screen {
+    transform: none;
+    transition: none;
+  }
+}

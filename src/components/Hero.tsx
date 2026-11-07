@@ -6,7 +6,9 @@ import gsap from "gsap";
 import { Mark } from "./Mark";
 import { Marquee } from "./Marquee";
 import { MorphingText } from "./MorphingText";
+import { Carousel } from "./Carousel";
 import { IPhone } from "./IPhone";
+import { ServiceIcon, type ServiceIconName } from "./ServiceIcons";
 import { FlickeringGrid } from "./FlickeringGrid";
 import { site } from "@/data/site";
 
@@ -142,65 +144,120 @@ export function Hero() {
           <div className="hero-panel lg:col-span-5">
             <div ref={deviceRef} className="flex justify-center">
               <IPhone className="w-[270px]">
-                <div className="px-4 pb-2 pt-12">
-                  <div className="flex items-center gap-2.5">
-                    <Mark height={26} cutsId="hero-phone" />
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold tracking-tight text-ink">
-                        Xeraki
-                      </p>
-                      <p className="truncate text-[11px] text-muted">
-                        Product engineering studio
-                      </p>
-                    </div>
-                    <span className="ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border px-2 py-0.5 text-[10px] font-medium text-muted">
-                      <span className="live-dot size-1.5 rounded-full bg-red-vivid" />
-                      Live
-                    </span>
-                  </div>
-
-                  <p className="mt-4 text-balance text-lg font-semibold leading-snug tracking-tight text-ink">
-                    One senior engineer. Full product coverage.
-                  </p>
-                  <p className="mt-2 text-[13px] leading-relaxed text-muted">
-                    Embedded with your team from design to deploy — augmented
-                    by AI, accountable throughout.
-                  </p>
-
-                  <dl className="mt-4 space-y-3 border-t border-border pt-4">
-                    {site.studioFacts.map((fact) => (
-                      <div
-                        key={fact.label}
-                        className="flex items-baseline justify-between gap-3"
-                      >
-                        <dt className="shrink-0 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
-                          {fact.label}
-                        </dt>
-                        <dd className="text-right text-[13px] font-medium text-ink">
-                          {fact.value}
-                        </dd>
+                <Carousel
+                  label="Studio highlights"
+                  screens={[
+                    <div key="story" className="px-4 pb-2 pt-12">
+                      <div className="flex items-center gap-2.5">
+                        <Mark height={26} cutsId="hero-phone" />
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-semibold tracking-tight text-ink">
+                            Xeraki
+                          </p>
+                          <p className="truncate text-[11px] text-muted">
+                            Product engineering studio
+                          </p>
+                        </div>
+                        <span className="ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border px-2 py-0.5 text-[10px] font-medium text-muted">
+                          <span className="live-dot size-1.5 rounded-full bg-red-vivid" />
+                          Live
+                        </span>
                       </div>
-                    ))}
-                  </dl>
 
-                  <div
-                    aria-hidden="true"
-                    className="mt-4 rounded-control bg-code-bg p-3 font-mono text-[11px] leading-relaxed text-code-text"
-                  >
-                    <p>
-                      <span className="text-term-prompt">$</span> xeraki ship
-                      --prod
-                    </p>
-                    <p>
-                      <span className="text-term-prompt">✓</span> build passed
-                      — 4.2s
-                    </p>
-                    <p>
-                      <span className="text-term-prompt">●</span> live — Nairobi
-                      · Remote
-                    </p>
-                  </div>
-                </div>
+                      <p className="mt-4 text-balance text-lg font-semibold leading-snug tracking-tight text-ink">
+                        One senior engineer. Full product coverage.
+                      </p>
+                      <p className="mt-2 text-[13px] leading-relaxed text-muted">
+                        Embedded with your team from design to deploy —
+                        augmented by AI, accountable throughout.
+                      </p>
+
+                      <dl className="mt-4 space-y-3 border-t border-border pt-4">
+                        {site.studioFacts.map((fact) => (
+                          <div
+                            key={fact.label}
+                            className="flex items-baseline justify-between gap-3"
+                          >
+                            <dt className="shrink-0 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+                              {fact.label}
+                            </dt>
+                            <dd className="text-right text-[13px] font-medium text-ink">
+                              {fact.value}
+                            </dd>
+                          </div>
+                        ))}
+                      </dl>
+
+                      <div
+                        aria-hidden="true"
+                        className="mt-4 rounded-control bg-code-bg p-3 font-mono text-[11px] leading-relaxed text-code-text"
+                      >
+                        <p>
+                          <span className="text-term-prompt">$</span> xeraki
+                          ship --prod
+                        </p>
+                        <p>
+                          <span className="text-term-prompt">✓</span> build
+                          passed — 4.2s
+                        </p>
+                        <p>
+                          <span className="text-term-prompt">●</span> live —
+                          Nairobi · Remote
+                        </p>
+                      </div>
+                    </div>,
+                    <div key="services" className="px-4 pb-2 pt-12">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+                        What we do
+                      </p>
+                      <ul className="mt-3 space-y-1">
+                        {site.services.map((service) => (
+                          <li key={service.title}>
+                            <Link
+                              href="/#services"
+                              className="flex items-center gap-2.5 rounded-control px-2 py-2 text-[13px] font-medium text-ink transition-colors hover:bg-sunken focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+                            >
+                              <span className="inline-flex size-7 shrink-0 items-center justify-center rounded-control bg-blue-tint text-on-blue-tint">
+                                <ServiceIcon
+                                  name={service.icon as ServiceIconName}
+                                />
+                              </span>
+                              {service.title}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>,
+                    <div key="contact" className="px-4 pb-2 pt-12">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+                        Get started
+                      </p>
+                      <p className="mt-3 text-balance text-lg font-semibold leading-snug tracking-tight text-ink">
+                        Bring us the problem.
+                      </p>
+                      <p className="mt-2 text-[13px] leading-relaxed text-muted">
+                        A short note is enough — we will ask the rest.
+                      </p>
+                      <div className="mt-4 space-y-2">
+                        <a
+                          href={`mailto:${site.contact.email}`}
+                          className="flex h-11 items-center justify-center rounded-pill border border-amber-border bg-amber-fill px-4 text-[13px] font-semibold text-on-amber focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+                        >
+                          Email us
+                        </a>
+                        <a
+                          href={`tel:${site.contact.phoneHref}`}
+                          className="flex h-11 items-center justify-center rounded-pill border border-blue-fill px-4 text-[13px] font-semibold text-blue-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+                        >
+                          Call {site.contact.phoneDisplay}
+                        </a>
+                      </div>
+                      <p className="mt-4 border-t border-border pt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+                        {site.contact.location}
+                      </p>
+                    </div>,
+                  ]}
+                />
               </IPhone>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import { Reveal } from "./Reveal";
 import { SpotlightCard } from "./SpotlightCard";
+import { Carousel } from "./Carousel";
 import { IPhone } from "./IPhone";
 import { site } from "@/data/site";
 
@@ -35,40 +36,77 @@ export function Work() {
               <Reveal delay={index * 60} className="w-full max-w-[290px]">
                 <SpotlightCard className="rounded-[3rem]">
                   <IPhone proportional className="w-full">
-                    <div className="flex min-h-0 flex-1 flex-col px-4 pb-2 pt-12">
-                      <div className="flex items-center justify-between gap-3">
-                        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
-                          {project.sector}
+                    <div className="flex items-center justify-between gap-3 px-4 pt-12">
+                      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+                        {project.sector}
+                      </span>
+                      {project.placeholder ? (
+                        <span className="rounded-full border border-border px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted">
+                          Sample
                         </span>
-                        {project.placeholder ? (
-                          <span className="rounded-full border border-border px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted">
-                            Sample
-                          </span>
-                        ) : null}
-                      </div>
-
-                      <h3 className="mt-4 text-lg font-semibold tracking-tight text-ink">
-                        {project.title}
-                      </h3>
-                      <p className="mt-2 line-clamp-5 text-[13px] leading-relaxed text-muted">
-                        {project.summary}
-                      </p>
-
-                      <ul className="mb-4 mt-4 flex flex-wrap gap-1.5">
-                        {project.stack.map((item) => (
-                          <li
-                            key={item}
-                            className="rounded-full bg-sunken px-2.5 py-1 text-[11px] font-medium text-muted"
-                          >
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-
-                      <p className="mt-auto border-t border-border pt-4 text-xs text-muted">
-                        Case study in preparation
-                      </p>
+                      ) : null}
                     </div>
+
+                    <Carousel
+                      label={`${project.title} screens`}
+                      className="flex min-h-0 flex-1 flex-col"
+                      screens={[
+                        <div key="overview" className="px-4 pb-2 pt-4">
+                          <h3 className="text-lg font-semibold tracking-tight text-ink">
+                            {project.title}
+                          </h3>
+                          <p className="mt-2 line-clamp-5 text-[13px] leading-relaxed text-muted">
+                            {project.summary}
+                          </p>
+
+                          <ul className="mb-4 mt-4 flex flex-wrap gap-1.5">
+                            {project.stack.map((item) => (
+                              <li
+                                key={item}
+                                className="rounded-full bg-sunken px-2.5 py-1 text-[11px] font-medium text-muted"
+                              >
+                                {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>,
+                        <div key="delivery" className="px-4 pb-2 pt-4">
+                          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+                            How it is delivered
+                          </p>
+                          <dl className="mt-3 space-y-3">
+                            <div className="flex items-baseline justify-between gap-3">
+                              <dt className="shrink-0 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+                                Team
+                              </dt>
+                              <dd className="text-right text-[13px] font-medium text-ink">
+                                Solo senior + specialists
+                              </dd>
+                            </div>
+                            <div className="flex items-baseline justify-between gap-3">
+                              <dt className="shrink-0 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+                                Cadence
+                              </dt>
+                              <dd className="text-right text-[13px] font-medium text-ink">
+                                Weekly working slices
+                              </dd>
+                            </div>
+                            <div className="flex items-baseline justify-between gap-3">
+                              <dt className="shrink-0 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+                                Handover
+                              </dt>
+                              <dd className="text-right text-[13px] font-medium text-ink">
+                                Docs + runbooks
+                              </dd>
+                            </div>
+                          </dl>
+                        </div>,
+                      ]}
+                    />
+
+                    <p className="mx-4 mb-2 border-t border-border pt-3 text-xs text-muted">
+                      Case study in preparation
+                    </p>
                   </IPhone>
                 </SpotlightCard>
               </Reveal>

@@ -522,6 +522,11 @@ The rest of the page extends the same split without reaching for an engine where
   effect is shared deliberately — it is the section signature, and it stays
   hover-only so there is nothing to disable under reduced motion.
 - **About** uses a Magic UI `ShineBorder`, reduced to a CSS conic ring with a registered `--shine-angle`, so it needs no `motion` dependency.
+- **Carousels** (`Carousel`, used in the hero phone and every Work phone) are
+  dependency-free: screens share one grid cell so the viewport is always the
+  tallest screen, they cross-fade on CSS, and a timer advances them. The timer
+  never starts under reduced motion, pauses on hover, focus and hidden tabs,
+  and the dots always work by hand.
 
 Copying that split for the next section is the intended pattern: one engine per interaction, and CSS wherever CSS is enough.
 
