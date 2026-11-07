@@ -167,7 +167,7 @@ export function Hero() {
 
           <div className="hero-panel lg:col-span-5">
             <div ref={deviceRef} className="flex justify-center">
-              <IPhone className="w-[270px]">
+              <IPhone className="w-[290px]">
                 <BorderBeam delay={0.5} />
                 <Carousel
                   label="Studio highlights"
@@ -238,8 +238,8 @@ export function Hero() {
                           src="/brand/kelvin.svg"
                           alt="Kelvin Ramsiel, founder of Xeraki"
                           width={476}
-                          height={595}
-                          className="aspect-[4/5] w-full object-cover object-top"
+                          height={381}
+                          className="aspect-[5/4] w-full object-cover object-top"
                         />
                       </div>
                       <p className="mt-4 text-lg font-semibold tracking-tight text-ink">
