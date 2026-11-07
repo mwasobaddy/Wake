@@ -26,7 +26,7 @@ export function IPhone({
   return (
     <div
       className={cx(
-        "rounded-[3rem] border border-border bg-[#0b1220] p-2.5 shadow-[0_1px_2px_rgb(15_23_42/0.05),0_16px_40px_rgb(15_23_42/0.12)]",
+        "relative rounded-[3rem] border border-border bg-[#0b1220] p-2.5 shadow-[0_1px_2px_rgb(15_23_42/0.05),0_16px_40px_rgb(15_23_42/0.12)]",
         proportional && "aspect-[433/882]",
         className,
       )}

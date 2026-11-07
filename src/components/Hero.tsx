@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
+import { BorderBeam } from "./BorderBeam";
 import { Mark } from "./Mark";
 import { Marquee } from "./Marquee";
 import { MorphingText } from "./MorphingText";
@@ -144,6 +145,7 @@ export function Hero() {
           <div className="hero-panel lg:col-span-5">
             <div ref={deviceRef} className="flex justify-center">
               <IPhone className="w-[270px]">
+                <BorderBeam delay={0.5} />
                 <Carousel
                   label="Studio highlights"
                   screens={[

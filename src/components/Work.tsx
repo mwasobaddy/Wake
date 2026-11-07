@@ -1,4 +1,5 @@
 import { Reveal } from "./Reveal";
+import { BorderBeam } from "./BorderBeam";
 import { SpotlightCard } from "./SpotlightCard";
 import { Carousel } from "./Carousel";
 import { IPhone } from "./IPhone";
@@ -36,6 +37,11 @@ export function Work() {
               <Reveal delay={index * 60} className="w-full max-w-[290px]">
                 <SpotlightCard className="rounded-[3rem]">
                   <IPhone proportional className="w-full">
+                    <BorderBeam
+                      size={80}
+                      duration={8.5}
+                      delay={0.7 + index * 1.5}
+                    />
                     <div className="flex items-center justify-between gap-3 px-4 pt-12">
                       <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
                         {project.sector}

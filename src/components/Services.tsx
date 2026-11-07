@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Reveal } from "./Reveal";
+import { BorderBeam } from "./BorderBeam";
 import { SpotlightCard } from "./SpotlightCard";
 import { ServiceIcon, type ServiceIconName } from "./ServiceIcons";
 import { site, siteUrl } from "@/data/site";
@@ -55,7 +56,8 @@ export function Services() {
             <li key={service.title} className="h-full">
               <Reveal delay={index * 60} className="h-full">
                 <SpotlightCard className="h-full rounded-card">
-                  <article className="group flex h-full flex-col rounded-card border border-border bg-surface p-6 transition-colors hover:border-blue-fill/40">
+                  <article className="group relative flex h-full flex-col rounded-card border border-border bg-surface p-6 transition-colors hover:border-blue-fill/40">
+                    <BorderBeam delay={index * 1.1} />
                   <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-control bg-blue-tint text-on-blue-tint">
                     <ServiceIcon name={service.icon as ServiceIconName} />
                   </span>

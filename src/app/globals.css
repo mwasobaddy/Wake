@@ -559,3 +559,57 @@
     transition: none;
   }
 }
+
+/* --- Border beam (adapted from Magic UI, MIT) ------------------------------
+   A segment of light travelling the border. The ring is a 1px mask: two
+   stacked gradients clipped to padding-box and border-box leave only the
+   edge visible. The traveller rides a CSS offset-path rectangle, so no
+   animation runtime is needed. Pure decoration: hidden under reduced motion. */
+
+.border-beam {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+  border: 1px solid transparent;
+  -webkit-mask:
+    linear-gradient(transparent, transparent),
+    linear-gradient(#000, #000);
+  -webkit-mask-clip: padding-box, border-box;
+  -webkit-mask-composite: source-in;
+  mask:
+    linear-gradient(transparent, transparent),
+    linear-gradient(#000, #000);
+  mask-clip: padding-box, border-box;
+  mask-composite: intersect;
+}
+
+.border-beam-traveler {
+  position: absolute;
+  aspect-ratio: 1;
+  background: linear-gradient(
+    to left,
+    var(--beam-from, var(--blue-fill)),
+    var(--beam-to, var(--amber-fill)),
+    transparent
+  );
+  animation: border-beam-travel var(--beam-duration, 7s) linear infinite;
+  animation-delay: var(--beam-delay, 0s);
+}
+
+@keyframes border-beam-travel {
+  to {
+    offset-distance: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .border-beam {
+    opacity: 0;
+  }
+
+  .border-beam-traveler {
+    animation: none;
+  }
+}

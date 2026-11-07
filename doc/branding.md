@@ -527,6 +527,9 @@ The rest of the page extends the same split without reaching for an engine where
   tallest screen, they cross-fade on CSS, and a timer advances them. The timer
   never starts under reduced motion, pauses on hover, focus and hidden tabs,
   and the dots always work by hand.
+- **Border beams** (`BorderBeam`, on the Services cards and every iPhone) are
+  the Magic UI read without its `motion` runtime: the traveller rides a CSS
+  `offset-path` rectangle instead. Hidden entirely under reduced motion.
 
 Copying that split for the next section is the intended pattern: one engine per interaction, and CSS wherever CSS is enough.
 
