@@ -14,7 +14,7 @@ export function About() {
           <div className="lg:col-span-5">
             <Reveal>
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
-                02 — Studio
+                03 — Studio
               </p>
               <h2
                 id="about-heading"
