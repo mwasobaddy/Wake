@@ -149,8 +149,15 @@ export default function Nav() {
         }}
         className="sheet md:hidden"
       >
-        <div className="flex h-dvh flex-col bg-raised text-ink">
-          <div className="flex h-16 shrink-0 items-center justify-between border-b border-border px-5">
+        <div className="flex max-h-[88dvh] flex-col bg-raised text-ink">
+          <div className="flex shrink-0 justify-center pt-2.5">
+            <span
+              aria-hidden="true"
+              className="h-1 w-10 rounded-full bg-border-strong"
+            />
+          </div>
+
+          <div className="flex h-14 shrink-0 items-center justify-between border-b border-border px-5">
             <Link
               href="/"
               onClick={closeMenu}
@@ -193,7 +200,7 @@ export default function Nav() {
             </Link>
           </nav>
 
-          <div className="shrink-0 border-t border-border px-5 py-4">
+          <div className="shrink-0 border-t border-border px-5 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
             <p className="inline-flex items-center gap-2 text-xs text-muted">
               <span className="live-dot size-2 rounded-full bg-red-vivid" />
               Open for new work

@@ -310,6 +310,7 @@ Radius `--radius-pill` (fully rounded), height 40px (44px touch), weight 600. Ca
 ### 5.3 Navigation
 
 - **Top nav** — bg `--bg-raised` (90% opacity + blur), bottom `--border`; links `--text-muted` → hover `--text`; active = `--blue-text` + 2px `--blue-fill` underline; right: theme toggle (Ghost) + **CTA** "Start a project".
+- **Mobile nav** — a bottom sheet, not a dropdown: full width, rounded top corners (`--radius-lg`), a 4px grabber, and `env(safe-area-inset-bottom)` padding. Built on `<dialog>` so focus trapping, Escape and the inert background come from the platform. Closes on backdrop click, Escape, route change, and when the viewport crosses into desktop.
 - **Tabs** — border-bottom `--border`; active `--text` + 2px `--blue-fill` underline.
 - **Breadcrumb** — ancestors `--text-muted`, hover `--blue-text`; current `--text`.
 - **Pagination** — current page `--blue-fill` + `--on-blue`.
