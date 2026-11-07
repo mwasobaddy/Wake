@@ -1,4 +1,5 @@
 import { Reveal } from "./Reveal";
+import { DotPattern } from "./DotPattern";
 import { site } from "@/data/site";
 
 export function Contact() {
@@ -31,9 +32,10 @@ export function Contact() {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="border-t border-border bg-base"
+      className="relative overflow-hidden border-t border-border bg-base"
     >
-      <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
+      <DotPattern id="contact-dots" className="opacity-60" />
+      <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-7">
             <Reveal>
