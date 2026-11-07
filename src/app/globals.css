@@ -50,6 +50,10 @@
   --on-amber-tint: #92400e;
   --amber-graphic: #c77d0a;
 
+  /* vivid red — functional accent only; identical in both modes */
+  --red-vivid: #ff0000;
+  --on-red: #0b1220;
+
   /* status */
   --status-success: #137a42;
   --status-success-bg: #ddf5e6;
@@ -192,6 +196,9 @@
 
   --color-focus-ring: var(--focus-ring);
   --color-focus-ring-band: var(--focus-ring-band);
+
+  --color-red-vivid: var(--red-vivid);
+  --color-on-red: var(--on-red);
 
   --radius-card: var(--radius);
   --radius-control: var(--radius-sm);
