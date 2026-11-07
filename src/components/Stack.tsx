@@ -1,5 +1,6 @@
 import { Reveal } from "./Reveal";
 import { OrbitingCircles } from "./OrbitingCircles";
+import { StackIcon } from "./StackIcons";
 import { Mark } from "./Mark";
 import { site } from "@/data/site";
 
@@ -65,11 +66,16 @@ export function Stack() {
                       {site.stackOuter.map((item) => (
                         <span
                           key={item.name}
-                          className="flex -translate-x-1/2 -translate-y-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border border-border bg-surface py-1 pl-3 pr-2.5 text-xs font-medium text-ink shadow-sm"
+                          className="flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 rounded-2xl border border-border bg-surface/95 px-3 py-2 text-center shadow-sm backdrop-blur"
                         >
-                          {item.name}
-                          <span className="rounded-full bg-blue-tint px-1.5 py-0.5 font-mono text-[10px] tabular-nums text-on-blue-tint">
-                            {item.projects}
+                          <span className="inline-flex size-9 items-center justify-center rounded-control bg-blue-tint text-on-blue-tint">
+                            <StackIcon name={item.name} />
+                          </span>
+                          <span className="whitespace-nowrap text-[11px] font-medium leading-none text-ink">
+                            {item.name}
+                          </span>
+                          <span className="font-mono text-[10px] tabular-nums leading-none text-muted">
+                            {item.projects} {Number(item.projects) === 1 ? "project" : "projects"}
                           </span>
                         </span>
                       ))}
@@ -79,11 +85,16 @@ export function Stack() {
                       {site.stackInner.map((item) => (
                         <span
                           key={item.name}
-                          className="flex -translate-x-1/2 -translate-y-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border border-border bg-surface py-1 pl-3 pr-2.5 text-xs font-medium text-ink shadow-sm"
+                          className="flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 rounded-2xl border border-border bg-surface/95 px-3 py-2 text-center shadow-sm backdrop-blur"
                         >
-                          {item.name}
-                          <span className="rounded-full bg-blue-tint px-1.5 py-0.5 font-mono text-[10px] tabular-nums text-on-blue-tint">
-                            {item.projects}
+                          <span className="inline-flex size-9 items-center justify-center rounded-control bg-blue-tint text-on-blue-tint">
+                            <StackIcon name={item.name} />
+                          </span>
+                          <span className="whitespace-nowrap text-[11px] font-medium leading-none text-ink">
+                            {item.name}
+                          </span>
+                          <span className="font-mono text-[10px] tabular-nums leading-none text-muted">
+                            {item.projects} {Number(item.projects) === 1 ? "project" : "projects"}
                           </span>
                         </span>
                       ))}
@@ -108,10 +119,15 @@ export function Stack() {
                       {group.items.map((item) => (
                         <li
                           key={item.name}
-                          className="flex items-baseline justify-between gap-3"
+                          className="flex items-center justify-between gap-3"
                         >
-                          <span className="text-sm font-medium text-ink">
-                            {item.name}
+                          <span className="flex items-center gap-2.5">
+                            <span className="inline-flex size-8 items-center justify-center rounded-control bg-blue-tint text-on-blue-tint">
+                              <StackIcon name={item.name} />
+                            </span>
+                            <span className="text-sm font-medium text-ink">
+                              {item.name}
+                            </span>
                           </span>
                           <span className="font-mono text-xs tabular-nums text-muted">
                             {item.projects}
