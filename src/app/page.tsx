@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
+import { About } from "@/components/About";
 
 export const metadata: Metadata = {
   // The layout supplies the title and description; this route only needs its
@@ -13,6 +14,7 @@ export default function Home() {
     <>
       <Hero />
       <Services />
+      <About />
     </>
   );
 }

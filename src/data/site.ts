@@ -82,6 +82,38 @@ export const site = {
     { label: "Base", value: "Nairobi · Remote" },
     { label: "Engagement", value: "Fixed scope or embedded" },
   ],
+  principles: [
+    {
+      title: "Ship in slices",
+      body: "Working software every week beats a perfect plan every quarter. Scope gets cut to protect the date, not the quality.",
+    },
+    {
+      title: "Own the whole surface",
+      body: "Interface, services, data and deploy are one system. We do not hand a layer over a wall and hope it fits.",
+    },
+    {
+      title: "Boring infrastructure",
+      body: "The deploy should be the least interesting part of the product: repeatable, observable, and cheap to leave running.",
+    },
+    {
+      title: "Write it down",
+      body: "Decisions live in the repository, so the next engineer inherits the reasoning instead of doing archaeology.",
+    },
+  ],
+  process: [
+    {
+      title: "Discovery",
+      body: "Map the product, the constraints and the risk before any production code is written.",
+    },
+    {
+      title: "Build",
+      body: "Embedded with your team, in slices, with something working to look at every week.",
+    },
+    {
+      title: "Hand over",
+      body: "Documentation, runbooks, and a team that can keep shipping without us.",
+    },
+  ],
   footer: {
     columns: [
       {
