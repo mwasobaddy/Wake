@@ -1,6 +1,6 @@
 import { Reveal } from "./Reveal";
 import { DotPattern } from "./DotPattern";
-import { WorldMap } from "./WorldMap";
+import { KenyaMap } from "./KenyaMap";
 import { site } from "@/data/site";
 
 export function Contact() {
@@ -115,8 +115,25 @@ export function Contact() {
                 {site.contact.location} — working worldwide
               </p>
             </div>
-            <div className="px-3 py-4 sm:px-6">
-              <WorldMap />
+            <div className="grid items-center gap-6 p-4 sm:grid-cols-[1fr_220px] sm:gap-8 sm:p-6">
+              <KenyaMap className="mx-auto w-full max-w-[420px]" />
+              <dl className="space-y-4">
+                {[
+                  { label: "Coordinates", value: "1.2921° S, 36.8219° E" },
+                  { label: "Time zone", value: "Africa/Nairobi · UTC+3" },
+                  { label: "Base", value: "Nairobi City, Kenya" },
+                  { label: "Coverage", value: "Worldwide, remote" },
+                ].map((fact) => (
+                  <div key={fact.label}>
+                    <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+                      {fact.label}
+                    </dt>
+                    <dd className="mt-1 text-sm font-medium text-ink">
+                      {fact.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </div>
           </div>
         </Reveal>

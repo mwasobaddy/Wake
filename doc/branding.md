@@ -530,10 +530,9 @@ The rest of the page extends the same split without reaching for an engine where
 - **Border beams** (`BorderBeam`, on the Services cards and every iPhone) are
   the Magic UI read without its `motion` runtime: the traveller rides a CSS
   `offset-path` rectangle instead. Hidden entirely under reduced motion.
-- **Dotted map** (`WorldMap`, in Contact) keeps the registry's point
-  generator — it is deterministic, so server and client render identical
-  dots — but the marker is a hand-drawn Kenya flag over Nairobi with a
-  pulse that only starts when motion is allowed.
+- **Dotted map** (in Contact) plots a real Kenya boundary (Natural Earth 50m,
+  public domain) as a deterministic dot grid, with a hand-drawn Kenya flag
+  over Nairobi and a pulse that only starts when motion is allowed.
 
 Copying that split for the next section is the intended pattern: one engine per interaction, and CSS wherever CSS is enough.
 
