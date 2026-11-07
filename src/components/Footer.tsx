@@ -26,9 +26,9 @@ export default function Footer() {
 
           {site.footer.columns.map((column) => (
             <nav key={column.title} aria-label={column.title}>
-              <h2 className="font-mono text-[11px] uppercase tracking-[0.18em] text-on-band/60">
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-on-band/60">
                 {column.title}
-              </h2>
+              </p>
               <ul className="mt-2 space-y-0.5">
                 {column.links.map((link) => (
                   <li key={link.label}>
