@@ -1,6 +1,6 @@
 # Cobalt & Amber UI Design System — Software Development Company
 
-> **How to use this file:** canonical spec for the visual language of a software development company's website, portfolio, blog/docs and client/admin dashboards. When a prompt says _"review `ui-design-system-cobalt-amber.md` and redesign `#component`"_, apply the tokens in §3, the role rules in §1, the component rules in §5–6, and the motion rules in §9. **Do not invent hex values** — reference a token or extend a scale. Every text/background pair must meet WCAG AA (4.5:1 text, 3:1 large text and UI/graphics) in **both** light and dark mode. Tokens flip with the theme; components reference **token names**, not raw hex.
+> **How to use this file:** canonical spec for the visual language of a software development company's website, portfolio, blog/docs and client/admin dashboards. When a prompt says _"review `ui-design-system-cobalt-amber.md` and redesign `#component`"_, apply the tokens in §3, the role rules in §1, the component rules in §5–6, the motion rules in §9, and the mark rules in §10. **Do not invent hex values** — reference a token or extend a scale. Every text/background pair must meet WCAG AA (4.5:1 text, 3:1 large text and UI/graphics) in **both** light and dark mode. Tokens flip with the theme; components reference **token names**, not raw hex.
 
 ---
 
@@ -17,9 +17,9 @@ Violet and emerald were similar in visual weight, so neither led; both are brigh
 | **Complementary schemes** pair opposites (blue + orange is a named example) for "instant drama": bold, high-contrast pairings. | **Cobalt blue + amber** (blue's near-opposite). The contrast makes the CTA unmissable without adding more hues. |
 | **Color meaning.** Blue = peace, security, trust, professionalism, calm. Yellow/orange = cheerful, inviting, energetic. | Blue = trust and craft for a studio people hand real money and data to. Amber = warmth, momentum, "start here". |
 | **Temperature.** Cool colors (IBM, Blue Shield) promote trust and calm; warm colors carry energy; brands with a signature color use neutrals as backgrounds. | Cool dominant, warm accent, **blue-tinted neutral backgrounds**. |
-| **60-30-10.** Dominant ties to brand identity, secondary gives pleasing contrast, accent adds pops and makes key elements stand out. | **60%** blue-tinted neutral canvas · **30%** cobalt (nav accents, links, selection, brand bands, headings) · **10%** amber (the main CTA, highlights, key metrics). |
-| **Make one color dominant**; let others play supporting roles. | Cobalt dominant, amber accent, no third brand hue. Green/red/teal appear only as status or chart colors. |
-| **Value & contrast.** WCAG 4.5:1 normal, 3:1 large; adjust backgrounds when a color is too light/dull. Saturation and value change how a color reads (a vivid red reads as a warning). | Vivid cobalt/amber are used on small elements; large areas are tinted neutrals. Both hues have **separate light and dark values**, not one reused hex. |
+| **60-30-10.** Dominant ties to brand identity, secondary gives pleasing contrast, accent adds pops and makes key elements stand out. | **60%** blue-tinted neutral canvas · **30%** cobalt (nav accents, links, selection, brand bands, headings) · **10%** amber and red: amber owns the single CTA, red owns one focal accent. |
+| **Make one color dominant**; let others play supporting roles. | Cobalt dominant; amber and red are supporting accents, and there is no fourth hue. Green and teal appear only as status or chart colours; red is a brand accent that is kept distinct from the danger status (§3.7). |
+| **Value & contrast.** WCAG 4.5:1 normal, 3:1 large; adjust backgrounds when a color is too light/dull. Saturation and value change how a color reads (a vivid red reads as a warning). | Vivid cobalt, amber and red are used on small elements; large areas are tinted neutrals. Each hue has **separate light and dark values** where it needs them, not one reused hex. |
 | **Start in grayscale; test across screens and lighting; A/B test CTAs.** | §8 validation plan. |
 
 **Alternatives considered:** _ink teal + coral_ (warm, distinctive, but coral sits too close to the danger color) and _graphite + electric lime_ (dev-tool aesthetic, but lime fails contrast on light backgrounds). Both can be swapped in by replacing the §3.2/§3.3 values.
@@ -32,14 +32,14 @@ Violet and emerald were similar in visual weight, so neither led; both are brigh
 | **Amber** | The single main conversion CTA per view, highlighted metrics, "popular" markers | "start here" |
 | **Blue-tinted neutrals** | Canvas, surfaces, borders, text | "the room" |
 | **Green, red, (amber), blue** | Status only: success, danger, warning, info | "what state it's in" |
-| **Vivid red** (`#FF0000`) | Urgency only: live/recording indicator, destructive emphasis, one editorial accent. Functional, not a brand hue. | "stop / now" |
+| **Vivid red** (`#FF0000`) | The brand's energy accent: the warm counterweight to cobalt. One focal element per view, live indicators, and the accent in the mark. Never the CTA. | "the spark" |
 
 **Rules**
 - **One amber CTA per view** ("Start a project", "Book a call"). Everywhere else, primary buttons are cobalt.
 - Amber also exists as the **warning** status. They never share a component: CTA is always a solid button; warning is always a soft badge/alert with a ⚠ icon and the word "Warning". Never color alone.
 - **Amber is never text on a light background** (it fails contrast). Use `--amber-text` (`#92400E`) when amber-toned text is needed.
 - Info status reuses cobalt tints; info elements are non-interactive and carry an ⓘ icon.
-- **Vivid red is not a status colour and not a brand hue.** Danger stays `--status-danger`; red is for urgency emphasis only (§3.7). It never becomes a CTA, and there is at most one red element per view.
+- **Vivid red is a brand accent, kept distinct from danger.** Danger stays `--status-danger` and always carries an icon and a label; red is decorative or structural and never carries a status meaning on its own. It never becomes a CTA, and it is never used as text on a light surface (§3.7).
 
 ---
 
@@ -168,21 +168,22 @@ Code blocks are **dark in both modes**, so syntax colors need only one set.
 
 Max 4 series + other; vary dash/marker/pattern so series don't rely on hue alone; label directly; gridlines `--border`, axes `--text-muted`. Status charts (passed/failed) use `--status-*` plus labels.
 
-### 3.7 Vivid red (functional accent, not a brand hue)
+### 3.7 Vivid red (brand accent)
 
-`#FF0000` is the most saturated colour in the system, so it is deliberately rationed. It does **not** join the 60-30-10 split, and it is **not** the danger colour — danger remains a semantic status with its own tints (§3.4). Red is for urgency and liveness: a recording dot, the pressed state of a destructive action, a single editorial rule.
+`#FF0000` is the third brand hue: the most saturated colour in the system, and therefore the most rationed. It is the warm counterweight to cobalt and the accent inside the brand mark. It is **not** the danger colour — danger remains a semantic status with its own tints (§3.4) — and it does not displace cobalt's dominance.
 
 | Token | Light | Dark | Used in |
 |---|---|---|---|
-| `--red-vivid` | `#FF0000` | `#FF0000` | Live/recording dot, destructive hover and active emphasis, one editorial accent rule |
+| `--red-vivid` | `#FF0000` | `#FF0000` | The mark, one focal accent per view, live/recording indicators, destructive hover and active emphasis |
 | `--on-red` | `#0B1220` | `#0B1220` | Text and icons on a `--red-vivid` fill |
 
 **Rules**
-- **Graphic only.** `#FF0000` is 3.7:1 on `--bg-base`, 4.0:1 on white and 4.3:1 on the dark `--bg-surface` — enough for icons, dots, borders and large text, **never** for body copy. When you need red text, use `--status-danger-fg`.
+- **Graphic-first.** `#FF0000` is 3.7:1 on `--bg-base`, 4.0:1 on white and 4.3:1 on the dark `--bg-surface` — enough for icons, dots, borders and large text, **never** for body copy. When you need red text, use `--status-danger-fg`.
 - **Dark ink on red, never white.** `--on-red` is 4.7:1 on `#FF0000`; white is 4.0:1 and fails.
 - **Never the CTA.** Amber owns the single conversion action per view.
+- **Never on amber.** Red is 2.28:1 on `--amber-fill`; the two are adjacent warm hues and the pair also collapses under red-green colour blindness.
 - **Never a status substitute.** If the meaning is "error" or "danger", use `--status-danger` with an icon and a label, so the state is not carried by hue alone.
-- **At most one red element per view**, and never directly beside the amber CTA.
+- **One focal red per view** in the interface. The brand mark does not count toward that limit; a second red element beside it does.
 
 ---
 
@@ -210,7 +211,7 @@ Max 4 series + other; vary dash/marker/pattern so series don't rely on hue alone
   --amber-border: #c77d0a; --amber-text: #92400e;
   --amber-tint: #fff3d6; --on-amber-tint: #92400e; --amber-graphic: #c77d0a;
 
-  /* vivid red — functional accent only; identical in both modes */
+  /* vivid red — brand accent; identical in both modes */
   --red-vivid: #ff0000; --on-red: #0b1220;
 
   /* status */
@@ -414,7 +415,7 @@ _Avoid:_ amber text on light backgrounds (use `--amber-text`) · white on `#FFB6
 - [ ] Text ≥4.5:1; icons/borders/charts ≥3:1; inputs use `--border-input`
 - [ ] Status shown by icon + label, not color alone
 - [ ] Exactly **one** amber CTA in the viewport
-- [ ] Red used as a graphic only, never body text on light, and at most one per view
+- [ ] Red used as a brand accent, never as the only signal for an error; danger keeps its icon + label
 - [ ] Links in running text underlined
 - [ ] Visible focus ring; keyboard order logical
 - [ ] Touch targets ≥44px, inputs 16px on touch
@@ -504,7 +505,51 @@ Four tools are available. They overlap, so the governing rule is **one engine pe
 
 ---
 
-## 10. Quick Reference
+## 10. Brand mark
+
+The mark is abstract: cobalt forms, a red accent, a single anchor, and a detached dot, with **transparent seams** cut between every shape so the surface shows through. Because it is not tied to a letter, it is always presented with the wordmark; it is not a standalone monogram yet.
+
+### 10.1 Ink logic
+
+The mark carries three inks and swaps exactly one per surface. The swaps are not decorative — each exists because the previous ink fails there.
+
+| Surface | Cobalt | Red | Anchor | Why the anchor changes |
+|---|---|---|---|---|
+| Light `#F5F7FC` | `#2F4FE0` | `#FF0000` | `#0F172A` ink | amber is 1.64:1 on light; ink is 16.7:1 |
+| Dark `#0B1220` | `#2F4FE0` | `#FF0000` | `#FFB627` amber | ink is 1.05:1 on navy; amber is 10.7:1 |
+| Amber `#FFB627` | `#2F4FE0` | `#FF0000` | `#0F172A` ink | amber disappears on itself; ink is 12.0:1 |
+
+**Rules**
+- **Seams are transparent, not painted.** Never flatten them to a background colour; the mark must sit on any surface without a halo.
+- **Red is never on an amber field at small sizes.** It is 2.28:1 there, and the pair collapses under red-green colour blindness. The amber-file variant is for large presentation use only.
+- **Cobalt is 2.96:1 on navy.** Logos are exempt from WCAG 1.4.11 non-text contrast, so this is allowed for the mark itself — but it is never a reason to use cobalt for text or controls on a dark surface.
+- **No gradients, shadows, strokes, second hue families, or non-uniform scaling.**
+
+### 10.2 Assets
+
+| File | Use |
+|---|---|
+| `public/brand/mark-on-light.svg` | Default on `--bg-base`/`--bg-surface` in light mode |
+| `public/brand/mark-on-dark.svg` | Default on `--bg-base`/`--bg-surface` in dark mode |
+| `public/brand/mark-on-amber.svg` | Presentation only: large sizes on the amber band |
+| `public/brand/mark-mono.svg` | Single colour; fills inherit `currentColor`, so set `color` on the parent |
+| `src/app/icon.svg` | Favicon, served automatically by the App Router |
+
+`images/` holds the original artwork and is not shipped. The shipped files are cropped to the artwork bounds and include real transparency.
+
+### 10.3 Clear space and minimum size
+
+- **Clear space:** at least one dot diameter on every side. Type and container edges stay out of it.
+- **Minimum size:** 24px high for the mark; 16px for the favicon.
+- **Placement:** never over a mid-tone photograph, where the seams vanish and the cobalt loses its edge.
+
+### 10.4 Wordmark
+
+No wordmark exists yet. Until one is drawn, set `Xeraki` in the interface font at semibold with tight tracking, separated from the mark by one dot diameter. Do not warp or restyle the mark to imitate letterforms.
+
+---
+
+## 11. Quick Reference
 
 | Need | Token |
 |---|---|
@@ -515,7 +560,8 @@ Four tools are available. They overlap, so the governing rule is **one engine pe
 | Main CTA (one per view) | `--amber-fill` + `--on-amber` + `--amber-border` (hover `--amber-hover`) |
 | Amber-toned text / metric | `--amber-text`, `--amber-tint` + `--on-amber-tint` |
 | Success · Warning · Danger · Info · Neutral | `--status-*` (soft bg + `-fg` text) |
-| Urgency accent (graphic only) | `--red-vivid` + `--on-red`; red text → `--status-danger-fg` |
+| Brand accent (graphic only) | `--red-vivid` + `--on-red`; red text → `--status-danger-fg` |
+| Brand mark | `public/brand/mark-on-light.svg` / `-on-dark.svg` (§10) |
 | Brand bands (CTA, footer) | `--blue-deep` + `--on-band` + `--band-link` |
 | Code | `--code-bg`, `--code-text`, `--syn-*` |
 | Input border | `--border-input` |
