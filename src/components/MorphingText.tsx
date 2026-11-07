@@ -21,9 +21,16 @@ const COOLDOWN_TIME = 2.4;
 export function MorphingText({
   texts,
   className,
+  mark = false,
 }: {
   texts: readonly string[];
   className?: string;
+  /**
+   * Draws a marker wash behind the words, once, shortly after mount.
+   * The wash is static CSS on the width-reserved container, so it survives
+   * the word cycling underneath it and stays put under reduced motion.
+   */
+  mark?: boolean;
 }) {
   const filterId = useId().replace(/[^a-zA-Z0-9]/g, "");
   const text1Ref = useRef<HTMLSpanElement | null>(null);
@@ -97,24 +104,35 @@ export function MorphingText({
 
   return (
     <>
+      {/* The wash sits on the outer box, outside the gooey filter: the
+          threshold filter binarises alpha, so anything translucent inside it
+          (including a marker wash) would vanish the moment it activates. */}
       <span
-        className={cx("relative inline-block h-[1em] align-bottom", className)}
-        style={
-          active ? { filter: `url(#${filterId}) blur(0.6px)` } : undefined
-        }
+        className={cx(
+          "relative inline-block h-[1em] align-bottom",
+          mark && "morph-mark",
+          className,
+        )}
       >
-        <span aria-hidden="true" className="invisible whitespace-nowrap">
-          {sizer}
-        </span>
-        <span ref={text1Ref} className="absolute inset-0 whitespace-nowrap">
-          {texts[0]}
-        </span>
         <span
-          ref={text2Ref}
-          aria-hidden="true"
-          className="absolute inset-0 whitespace-nowrap opacity-0"
+          className="relative block h-full w-full"
+          style={
+            active ? { filter: `url(#${filterId}) blur(0.6px)` } : undefined
+          }
         >
-          {texts[1] ?? texts[0]}
+          <span aria-hidden="true" className="invisible whitespace-nowrap">
+            {sizer}
+          </span>
+          <span ref={text1Ref} className="absolute inset-0 whitespace-nowrap">
+            {texts[0]}
+          </span>
+          <span
+            ref={text2Ref}
+            aria-hidden="true"
+            className="absolute inset-0 whitespace-nowrap opacity-0"
+          >
+            {texts[1] ?? texts[0]}
+          </span>
         </span>
       </span>
       <svg aria-hidden="true" className="fixed h-0 w-0">

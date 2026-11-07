@@ -491,3 +491,37 @@
     opacity: 0.35;
   }
 }
+
+/* --- Morph marker (marker-stroke read, CSS only) ---------------------------
+   A translucent amber wash behind the cycling headline words. It draws once,
+   shortly after mount, then stays put while the words cycle underneath it.
+   Translucent like a real marker, so the text contrast survives in both
+   themes; the global reduced-motion rule leaves the wash static. */
+
+.morph-mark {
+  background-image: linear-gradient(
+    color-mix(in srgb, var(--amber-fill) 42%, transparent),
+    color-mix(in srgb, var(--amber-fill) 42%, transparent)
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 78%;
+  background-position: 0 100%;
+  border-radius: 3px;
+  padding: 0 0.06em;
+  animation: morph-mark-draw 0.8s ease 1s both;
+}
+
+@keyframes morph-mark-draw {
+  from {
+    background-size: 0% 78%;
+  }
+  to {
+    background-size: 100% 78%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .morph-mark {
+    animation: none !important;
+  }
+}
