@@ -512,14 +512,16 @@ The hero is the reference implementation, and it splits the work on purpose:
 
 - **GSAP** owns the entrance timeline — eyebrow, headline words, subcopy, actions, panel and marquee, in that order. It is one timeline so the sequence can be retimed in one place.
 - **Anime.js** owns exactly one thing: the idle float of the mark in the studio panel. It touches a different element, so the two engines never fight.
-- **Magic UI's `Marquee`** is adapted, not installed: the source is copied in, restyled to tokens, and its vertical mode dropped. The same applies to the hero's `FlickeringGrid` — a canvas grid, theme-aware, throttled to ~15fps and paused off-screen — the Contact `DotPattern`, which is a static SVG pattern rather than the registry version's `motion`-driven glow, the `IPhone` shown in the hero on all screens, rebuilt from divs so the frame follows tokens and the screen holds responsive content, and the `MorphingText` cycling the headline payoff, which renders the first phrase as real text instead of empty spans and never starts its loop under reduced motion. The payoff also carries a CSS marker wash (the Highlighter read, without its `motion` + `rough-notation` runtimes): translucent amber, drawn once, static under reduced motion. The wash lives outside the gooey filter element, because the threshold filter binarises alpha and would erase anything translucent inside it.
+- **Magic UI's `Marquee`** is adapted, not installed: the source is copied in, restyled to tokens, and its vertical mode dropped. The same applies to the hero's `FlickeringGrid` — a canvas grid, theme-aware, throttled to ~15fps and paused off-screen — the Contact `DotPattern`, which is a static SVG pattern rather than the registry version's `motion`-driven glow, the `IPhone` shown in the hero on all screens, rebuilt from divs so the frame follows tokens and the screen holds responsive content, and reused in Work with a `proportional` flag that holds the real 433:882 ratio so all three devices match regardless of content length, and the `MorphingText` cycling the headline payoff, which renders the first phrase as real text instead of empty spans and never starts its loop under reduced motion. The payoff also carries a CSS marker wash (the Highlighter read, without its `motion` + `rough-notation` runtimes): translucent amber, drawn once, static under reduced motion. The wash lives outside the gooey filter element, because the threshold filter binarises alpha and would erase anything translucent inside it.
 - **Reduced motion** runs none of it: no timeline, no float, no pulse, and the marquee becomes a static wrapped list with the duplicate tracks hidden. The grid draws a single static frame instead of starting its loop.
 
 The rest of the page extends the same split without reaching for an engine where CSS is enough:
 
-- **Work** uses a React Bits `SpotlightCard`, adapted to tokens: a pointer-driven radial light, not a timeline.
+- **Work** uses a React Bits `SpotlightCard` on each device, and **Services**
+  uses it on each card: a pointer-driven radial light, not a timeline. The
+  effect is shared deliberately — it is the section signature, and it stays
+  hover-only so there is nothing to disable under reduced motion.
 - **About** uses a Magic UI `ShineBorder`, reduced to a CSS conic ring with a registered `--shine-angle`, so it needs no `motion` dependency.
-- **Services** stays CSS-only on purpose. A hover border and a reveal do not justify an animation runtime, and adding one there would be decoration rather than craft.
 
 Copying that split for the next section is the intended pattern: one engine per interaction, and CSS wherever CSS is enough.
 
