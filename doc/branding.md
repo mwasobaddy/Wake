@@ -512,7 +512,7 @@ The hero is the reference implementation, and it splits the work on purpose:
 
 - **GSAP** owns the entrance timeline — eyebrow, headline words, subcopy, actions, panel and marquee, in that order. It is one timeline so the sequence can be retimed in one place.
 - **Anime.js** owns exactly one thing: the idle float of the mark in the studio panel. It touches a different element, so the two engines never fight.
-- **Magic UI's `Marquee`** is adapted, not installed: the source is copied in, restyled to tokens, and its vertical mode dropped. The same applies to the hero's `FlickeringGrid` — a canvas grid, theme-aware, throttled to ~15fps and paused off-screen — and the Contact `DotPattern`, which is a static SVG pattern rather than the registry version's `motion`-driven glow.
+- **Magic UI's `Marquee`** is adapted, not installed: the source is copied in, restyled to tokens, and its vertical mode dropped. The same applies to the hero's `FlickeringGrid` — a canvas grid, theme-aware, throttled to ~15fps and paused off-screen — the Contact `DotPattern`, which is a static SVG pattern rather than the registry version's `motion`-driven glow, and the hero's `Safari` window, which is rebuilt from divs so the chrome follows tokens and the screen holds responsive content instead of a fixed-aspect image.
 - **Reduced motion** runs none of it: no timeline, no float, no pulse, and the marquee becomes a static wrapped list with the duplicate tracks hidden. The grid draws a single static frame instead of starting its loop.
 
 The rest of the page extends the same split without reaching for an engine where CSS is enough:
