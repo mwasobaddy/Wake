@@ -446,3 +446,53 @@
     transition: none;
   }
 }
+
+/* --- Shine border (adapted from Magic UI, MIT) ---------------------------
+   A conic highlight travelling around a 1px ring. Registered custom property
+   so the angle can actually animate; CSS-only, no animation runtime. */
+
+@property --shine-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.shine-border {
+  position: relative;
+}
+
+.shine-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--shine-angle),
+    transparent 0deg,
+    var(--blue-fill) 42deg,
+    transparent 118deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: shine-sweep var(--shine-duration, 14s) linear infinite;
+}
+
+@keyframes shine-sweep {
+  to {
+    --shine-angle: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shine-border::before {
+    animation: none !important;
+    opacity: 0.35;
+  }
+}

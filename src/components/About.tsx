@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Reveal } from "./Reveal";
+import { ShineBorder } from "./ShineBorder";
 import { site } from "@/data/site";
 
 export function About() {
@@ -23,8 +24,8 @@ export function About() {
                 A studio built to ship, not to pitch.
               </h2>
               <p className="mt-5 text-pretty text-lg leading-relaxed text-muted">
-                Xeraki is a small product engineering studio. We work as one team
-                with the people building the product — designers, engineers, and
+                Xeraki is a small product engineering studio. We work alongside
+                the people building the product — designers, engineers, and
                 whoever owns the outcome — instead of handing over a deck and
                 disappearing.
               </p>
@@ -80,26 +81,61 @@ export function About() {
         </div>
 
         <Reveal className="mt-12" delay={80}>
-          <div className="rounded-panel border border-border bg-surface p-6 sm:p-8">
-            <h3 className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
-              How we work
-            </h3>
-            <ol className="mt-6 grid gap-6 sm:grid-cols-3 sm:gap-8">
-              {site.process.map((step, index) => (
-                <li key={step.title} className="relative">
-                  <span className="flex size-9 items-center justify-center rounded-full bg-blue-fill text-sm font-semibold text-on-blue">
-                    {index + 1}
-                  </span>
-                  <h4 className="mt-4 text-base font-semibold tracking-tight text-ink">
-                    {step.title}
-                  </h4>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">
-                    {step.body}
-                  </p>
-                </li>
-              ))}
-            </ol>
-          </div>
+          <ShineBorder className="rounded-panel">
+            <div className="rounded-panel border border-border bg-surface p-6 sm:p-8">
+              <h3 className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
+                How Xeraki works
+              </h3>
+
+              <div className="mt-4 grid gap-4 text-sm leading-relaxed text-muted sm:grid-cols-2">
+                <p>
+                  Xeraki is run by one senior engineer, not a bench. You deal
+                  with the person doing the work — no account layer, no hand-off
+                  to someone learning on your budget.
+                </p>
+                <p>
+                  When a project needs more hands, the studio brings in
+                  specialists it has worked with before — design, mobile, data —
+                  and stays accountable for the whole. One point of contact, one
+                  owner of the outcome.
+                </p>
+                <p>
+                  AI is part of the workflow, not the pitch. It compresses the
+                  repetitive middle — scaffolding, tests, migrations,
+                  documentation — so senior time goes to architecture,
+                  trade-offs and the parts that need judgement. It does not sign
+                  off on the result.
+                </p>
+                <p>
+                  Continuity does not depend on one person being awake.
+                  Decisions, runbooks and handover live in your repository, so
+                  the next engineer inherits the reasoning instead of
+                  reverse-engineering it.
+                </p>
+              </div>
+
+              <div className="mt-8 border-t border-border pt-6">
+                <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
+                  Engagement
+                </p>
+                <ol className="mt-5 grid gap-6 sm:grid-cols-3 sm:gap-8">
+                  {site.process.map((step, index) => (
+                    <li key={step.title} className="relative">
+                      <span className="flex size-9 items-center justify-center rounded-full bg-blue-fill text-sm font-semibold text-on-blue">
+                        {index + 1}
+                      </span>
+                      <h4 className="mt-4 text-base font-semibold tracking-tight text-ink">
+                        {step.title}
+                      </h4>
+                      <p className="mt-2 text-sm leading-relaxed text-muted">
+                        {step.body}
+                      </p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+          </ShineBorder>
         </Reveal>
       </div>
     </section>

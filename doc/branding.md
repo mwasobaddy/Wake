@@ -515,6 +515,12 @@ The hero is the reference implementation, and it splits the work on purpose:
 - **Magic UI's `Marquee`** is adapted, not installed: the source is copied in, restyled to tokens, and its vertical mode dropped. The grid behind the hero is plain CSS, because a decorative background does not justify adding `motion` as a third animation runtime.
 - **Reduced motion** runs none of it: no timeline, no float, no pulse, and the marquee becomes a static wrapped list with the duplicate tracks hidden.
 
+The rest of the page extends the same split without reaching for an engine where CSS is enough:
+
+- **Work** uses a React Bits `SpotlightCard`, adapted to tokens: a pointer-driven radial light, not a timeline.
+- **About** uses a Magic UI `ShineBorder`, reduced to a CSS conic ring with a registered `--shine-angle`, so it needs no `motion` dependency.
+- **Services and Contact** stay CSS-only on purpose. A hover border and a reveal do not justify an animation runtime, and adding one there would be decoration rather than craft.
+
 Copying that split for the next section is the intended pattern: one engine per interaction, and CSS wherever CSS is enough.
 
 ---
