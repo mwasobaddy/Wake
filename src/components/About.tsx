@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Reveal } from "./Reveal";
 import { ShineBorder } from "./ShineBorder";
+import { TiltCard } from "./TiltCard";
 import { site } from "@/data/site";
 
 export function About() {
@@ -59,7 +60,8 @@ export function About() {
               {site.principles.map((principle, index) => (
                 <li key={principle.title} className="h-full">
                   <Reveal delay={index * 60} className="h-full">
-                    <article className="flex h-full flex-col rounded-card border border-border bg-surface p-6">
+                    <TiltCard className="h-full rounded-card">
+                      <article className="flex h-full flex-col rounded-card border border-border bg-surface p-6">
                       <span
                         aria-hidden="true"
                         className="font-mono text-xs tabular-nums text-muted"
@@ -72,7 +74,8 @@ export function About() {
                       <p className="mt-2 text-sm leading-relaxed text-muted">
                         {principle.body}
                       </p>
-                    </article>
+                      </article>
+                    </TiltCard>
                   </Reveal>
                 </li>
               ))}
