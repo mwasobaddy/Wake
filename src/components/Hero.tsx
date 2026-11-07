@@ -6,6 +6,8 @@ import gsap from "gsap";
 import { Mark } from "./Mark";
 import { Marquee } from "./Marquee";
 import { Safari } from "./Safari";
+import { MacFrame } from "./MacFrame";
+import { IPhone } from "./IPhone";
 import { FlickeringGrid } from "./FlickeringGrid";
 import { cx } from "@/lib/cx";
 import { site } from "@/data/site";
@@ -16,7 +18,7 @@ const HIGHLIGHT_FROM = 4;
 
 export function Hero() {
   const rootRef = useRef<HTMLElement | null>(null);
-  const safariRef = useRef<HTMLDivElement | null>(null);
+  const deviceRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -49,12 +51,12 @@ export function Hero() {
     let cancelled = false;
     let animation: { pause: () => void } | undefined;
 
-    // Anime.js owns one thing only: the idle float of the browser window.
+    // Anime.js owns one thing only: the idle float of the device mockup.
     // GSAP owns the entrance, so the two never touch the same property —
-    // GSAP animates the panel wrapper in, Anime.js floats the window itself.
+    // GSAP animates the panel wrapper in, Anime.js floats the device itself.
     import("animejs").then(({ animate }) => {
-      if (cancelled || !safariRef.current) return;
-      animation = animate(safariRef.current, {
+      if (cancelled || !deviceRef.current) return;
+      animation = animate(deviceRef.current, {
         translateY: [-5, 5],
         duration: 4600,
         loop: true,
@@ -133,65 +135,127 @@ export function Hero() {
           </div>
 
           <div className="hero-panel lg:col-span-5">
-            <div ref={safariRef}>
-              <Safari url="xeraki.studio/about">
-                <div className="p-5 sm:p-6">
-                  <div className="flex items-center gap-3">
-                    <Mark height={30} cutsId="hero-browser" />
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold tracking-tight text-ink">
-                        Xeraki
+            <div ref={deviceRef}>
+              {/* Desktop: the studio site on a monitor. */}
+              <div className="hidden lg:block">
+                <MacFrame>
+                  <Safari url="xeraki.studio/about">
+                    <div className="p-5 sm:p-6">
+                      <div className="flex items-center gap-3">
+                        <Mark height={30} cutsId="hero-browser" />
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-semibold tracking-tight text-ink">
+                            Xeraki
+                          </p>
+                          <p className="truncate text-xs text-muted">
+                            Product engineering studio
+                          </p>
+                        </div>
+                        <span className="ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border px-2.5 py-1 text-[11px] font-medium text-muted">
+                          <span className="live-dot size-1.5 rounded-full bg-red-vivid" />
+                          Live
+                        </span>
+                      </div>
+
+                      <p className="mt-5 text-balance text-xl font-semibold leading-snug tracking-tight text-ink">
+                        One senior engineer. Full product coverage.
                       </p>
-                      <p className="truncate text-xs text-muted">
-                        Product engineering studio
+                      <p className="mt-2 text-sm leading-relaxed text-muted">
+                        Embedded with your team from design to deploy —
+                        augmented by AI, accountable throughout.
+                      </p>
+
+                      <dl className="mt-5 grid grid-cols-2 gap-x-5 gap-y-4 border-t border-border pt-5">
+                        {site.studioFacts.map((fact) => (
+                          <div key={fact.label}>
+                            <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+                              {fact.label}
+                            </dt>
+                            <dd className="mt-1 text-sm font-medium text-ink">
+                              {fact.value}
+                            </dd>
+                          </div>
+                        ))}
+                      </dl>
+
+                      <div
+                        aria-hidden="true"
+                        className="mt-5 rounded-control bg-code-bg p-3 font-mono text-[11px] leading-relaxed text-code-text"
+                      >
+                        <p>
+                          <span className="text-term-prompt">$</span> xeraki
+                          ship --prod
+                        </p>
+                        <p>
+                          <span className="text-term-prompt">✓</span> build
+                          passed — 4.2s
+                        </p>
+                        <p>
+                          <span className="text-term-prompt">●</span> live —
+                          Nairobi · Remote
+                        </p>
+                      </div>
+                    </div>
+                  </Safari>
+                </MacFrame>
+              </div>
+
+              {/* Mobile: the same studio, condensed for a phone screen. */}
+              <div className="flex justify-center lg:hidden">
+                <IPhone>
+                  <div className="px-4 pb-2 pt-12">
+                    <div className="flex items-center gap-2.5">
+                      <Mark height={26} cutsId="hero-phone" />
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold tracking-tight text-ink">
+                          Xeraki
+                        </p>
+                        <p className="truncate text-[11px] text-muted">
+                          Product engineering studio
+                        </p>
+                      </div>
+                      <span className="ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border px-2 py-0.5 text-[10px] font-medium text-muted">
+                        <span className="live-dot size-1.5 rounded-full bg-red-vivid" />
+                        Live
+                      </span>
+                    </div>
+
+                    <p className="mt-4 text-balance text-lg font-semibold leading-snug tracking-tight text-ink">
+                      One senior engineer. Full product coverage.
+                    </p>
+
+                    <dl className="mt-4 space-y-3 border-t border-border pt-4">
+                      {site.studioFacts.map((fact) => (
+                        <div
+                          key={fact.label}
+                          className="flex items-baseline justify-between gap-3"
+                        >
+                          <dt className="shrink-0 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
+                            {fact.label}
+                          </dt>
+                          <dd className="text-right text-[13px] font-medium text-ink">
+                            {fact.value}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+
+                    <div
+                      aria-hidden="true"
+                      className="mt-4 rounded-control bg-code-bg p-3 font-mono text-[11px] leading-relaxed text-code-text"
+                    >
+                      <p>
+                        <span className="text-term-prompt">$</span> xeraki ship
+                        --prod
+                      </p>
+                      <p>
+                        <span className="text-term-prompt">●</span> live —
+                        Nairobi · Remote
                       </p>
                     </div>
-                    <span className="ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border px-2.5 py-1 text-[11px] font-medium text-muted">
-                      <span className="live-dot size-1.5 rounded-full bg-red-vivid" />
-                      Live
-                    </span>
                   </div>
-
-                  <p className="mt-5 text-balance text-xl font-semibold leading-snug tracking-tight text-ink">
-                    One senior engineer. Full product coverage.
-                  </p>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">
-                    Embedded with your team from design to deploy — augmented
-                    by AI, accountable throughout.
-                  </p>
-
-                  <dl className="mt-5 grid grid-cols-2 gap-x-5 gap-y-4 border-t border-border pt-5">
-                    {site.studioFacts.map((fact) => (
-                      <div key={fact.label}>
-                        <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
-                          {fact.label}
-                        </dt>
-                        <dd className="mt-1 text-sm font-medium text-ink">
-                          {fact.value}
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
-
-                  <div
-                    aria-hidden="true"
-                    className="mt-5 rounded-control bg-code-bg p-3 font-mono text-[11px] leading-relaxed text-code-text"
-                  >
-                    <p>
-                      <span className="text-term-prompt">$</span> xeraki ship
-                      --prod
-                    </p>
-                    <p>
-                      <span className="text-term-prompt">✓</span> build passed
-                      — 4.2s
-                    </p>
-                    <p>
-                      <span className="text-term-prompt">●</span> live — Nairobi
-                      · Remote
-                    </p>
-                  </div>
-                </div>
-              </Safari>
+                </IPhone>
+              </div>
             </div>
           </div>
         </div>
