@@ -233,28 +233,59 @@ export function Hero() {
                       </div>
                     </div>,
                     <div key="profile" className="px-4 pb-2 pt-12 text-center">
-                      <img
-                        src="/brand/kelvin.svg"
-                        alt="Kelvin Ramsiel, founder of Xeraki"
-                        width={88}
-                        height={88}
-                        className="mx-auto size-[88px] rounded-full bg-blue-tint-subtle object-cover ring-2 ring-border"
-                      />
+                      <div className="overflow-hidden rounded-2xl bg-blue-tint-subtle ring-1 ring-border">
+                        <img
+                          src="/brand/kelvin.svg"
+                          alt="Kelvin Ramsiel, founder of Xeraki"
+                          width={476}
+                          height={595}
+                          className="aspect-[4/5] w-full object-cover object-top"
+                        />
+                      </div>
                       <p className="mt-4 text-lg font-semibold tracking-tight text-ink">
                         Kelvin Ramsiel
                       </p>
                       <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
                         Founder &amp; lead engineer
                       </p>
-                      <p className="mx-auto mt-3 max-w-[210px] text-balance text-[13px] leading-relaxed text-muted">
+                      <p className="mx-auto mt-2 max-w-[210px] text-balance text-[13px] leading-relaxed text-muted">
                         I take platforms from an empty repo to production.
                       </p>
-                      <p className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-border px-2.5 py-1 text-[11px] font-medium text-muted">
+                      <ul
+                        aria-label="Specialties"
+                        className="mt-3 flex flex-wrap justify-center gap-1.5"
+                      >
+                        {["Laravel", "Next.js", "React Native", "APIs", "AI", "M-Pesa"].map(
+                          (skill) => (
+                            <li
+                              key={skill}
+                              className="rounded-full bg-sunken px-2.5 py-1 text-[11px] font-medium text-muted"
+                            >
+                              {skill}
+                            </li>
+                          ),
+                        )}
+                      </ul>
+                      <p className="mt-3 inline-flex items-center gap-1 rounded-full border border-border px-2.5 py-1 text-[10px] font-medium text-muted">
                         <span className="live-dot size-1.5 rounded-full bg-red-vivid" />
-                        Nairobi
+                        Open for work
                         <span aria-hidden="true">·</span>
-                        <NairobiTime />
+                        Nairobi <NairobiTime />
                       </p>
+                      <div className="mt-3 grid grid-cols-2 gap-2">
+                        <a
+                          href={`mailto:${site.contact.email}`}
+                          className="inline-flex h-10 items-center justify-center rounded-pill border border-amber-border bg-amber-fill px-3 text-xs font-semibold text-on-amber focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+                        >
+                          Email
+                        </a>
+                        <a
+                          href={`tel:${site.contact.phoneHref}`}
+                          className="inline-flex h-10 items-center justify-center rounded-pill border border-blue-fill px-3 text-xs font-semibold text-blue-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
+                        >
+                          Call
+                        </a>
+                      </div>
                     </div>,
                     <div key="services" className="px-4 pb-2 pt-12">
                       <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
