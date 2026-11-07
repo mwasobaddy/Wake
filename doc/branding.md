@@ -536,10 +536,10 @@ The rest of the page extends the same split without reaching for an engine where
   generator — it is deterministic, so server and client render identical
   dots — but the marker is a hand-drawn Kenya flag over Nairobi with a
   pulse that only starts when motion is allowed.
-- **Pointer** (hero only) is the Magic UI read without `motion`: a rAF
+- **Pointer** (whole page) is the Magic UI read without `motion`: a rAF
   loop lerps a cobalt dot and a trailing amber ring. Fine pointers with
-  motion allowed get it and lose the native cursor inside the hero;
-  everyone else is untouched.
+  motion allowed get it and lose the native cursor; everyone else is
+  untouched.
 - **Orbiting circles** (`Stack` section) are pure CSS from the start — no
   runtime to remove. Rings use container-query units so the system scales,
   and the base transform matches the first keyframe so reduced motion
@@ -547,6 +547,11 @@ The rest of the page extends the same split without reaching for an engine where
 - **Testimonies** skip the registry TweetCard entirely: it fetches live
   tweets over the network, and there are no tweets to fetch. Quote cards
   in tokens carry role-only Sample placeholders until real quotes arrive.
+- **Tilt cards** (Services) are the transferable half of React Bits'
+  ReflectiveCard: tilt toward the cursor plus a tracking highlight. The
+  other half — a WebGL metal plate that can reflect the user's webcam —
+  stays out: six cards do not need six GL contexts, and a services grid
+  must never ask for camera permission.
 
 Copying that split for the next section is the intended pattern: one engine per interaction, and CSS wherever CSS is enough.
 

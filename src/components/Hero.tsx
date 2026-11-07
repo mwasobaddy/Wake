@@ -8,7 +8,6 @@ import { Mark } from "./Mark";
 import { Marquee } from "./Marquee";
 import { MorphingText } from "./MorphingText";
 import { Carousel } from "./Carousel";
-import { Pointer } from "./Pointer";
 import { TerminalScreen } from "./TerminalScreen";
 import { IPhone } from "./IPhone";
 import { ServiceIcon, type ServiceIconName } from "./ServiceIcons";
@@ -82,7 +81,6 @@ export function Hero() {
 
   return (
     <section ref={rootRef} className="relative overflow-hidden">
-      <Pointer />
       {/* Single-hue glow behind a living grid, both decorative. */}
       <div
         aria-hidden="true"

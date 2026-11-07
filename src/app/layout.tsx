@@ -4,6 +4,7 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { InlineScript } from "@/components/InlineScript";
+import { Pointer } from "@/components/Pointer";
 import { site, siteUrl } from "@/data/site";
 
 const inter = Inter({
@@ -78,6 +79,7 @@ export default function RootLayout({
         <InlineScript html={themeScript} />
       </head>
       <body className="flex min-h-dvh flex-col bg-base text-ink">
+        <Pointer />
         <a
           href="#main"
           className="sr-only rounded-pill bg-blue-fill px-4 py-2 text-sm font-semibold text-on-blue focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50"
