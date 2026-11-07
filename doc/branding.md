@@ -1,6 +1,6 @@
 # Cobalt & Amber UI Design System — Software Development Company
 
-> **How to use this file:** canonical spec for the visual language of a software development company's website, portfolio, blog/docs and client/admin dashboards. When a prompt says _"review `ui-design-system-cobalt-amber.md` and redesign `#component`"_, apply the tokens in §3, the role rules in §1 and the component rules in §5–6. **Do not invent hex values** — reference a token or extend a scale. Every text/background pair must meet WCAG AA (4.5:1 text, 3:1 large text and UI/graphics) in **both** light and dark mode. Tokens flip with the theme; components reference **token names**, not raw hex.
+> **How to use this file:** canonical spec for the visual language of a software development company's website, portfolio, blog/docs and client/admin dashboards. When a prompt says _"review `ui-design-system-cobalt-amber.md` and redesign `#component`"_, apply the tokens in §3, the role rules in §1, the component rules in §5–6, and the motion rules in §9. **Do not invent hex values** — reference a token or extend a scale. Every text/background pair must meet WCAG AA (4.5:1 text, 3:1 large text and UI/graphics) in **both** light and dark mode. Tokens flip with the theme; components reference **token names**, not raw hex.
 
 ---
 
@@ -32,12 +32,14 @@ Violet and emerald were similar in visual weight, so neither led; both are brigh
 | **Amber** | The single main conversion CTA per view, highlighted metrics, "popular" markers | "start here" |
 | **Blue-tinted neutrals** | Canvas, surfaces, borders, text | "the room" |
 | **Green, red, (amber), blue** | Status only: success, danger, warning, info | "what state it's in" |
+| **Vivid red** (`#FF0000`) | Urgency only: live/recording indicator, destructive emphasis, one editorial accent. Functional, not a brand hue. | "stop / now" |
 
 **Rules**
 - **One amber CTA per view** ("Start a project", "Book a call"). Everywhere else, primary buttons are cobalt.
 - Amber also exists as the **warning** status. They never share a component: CTA is always a solid button; warning is always a soft badge/alert with a ⚠ icon and the word "Warning". Never color alone.
 - **Amber is never text on a light background** (it fails contrast). Use `--amber-text` (`#92400E`) when amber-toned text is needed.
 - Info status reuses cobalt tints; info elements are non-interactive and carry an ⓘ icon.
+- **Vivid red is not a status colour and not a brand hue.** Danger stays `--status-danger`; red is for urgency emphasis only (§3.7). It never becomes a CTA, and there is at most one red element per view.
 
 ---
 
@@ -166,6 +168,22 @@ Code blocks are **dark in both modes**, so syntax colors need only one set.
 
 Max 4 series + other; vary dash/marker/pattern so series don't rely on hue alone; label directly; gridlines `--border`, axes `--text-muted`. Status charts (passed/failed) use `--status-*` plus labels.
 
+### 3.7 Vivid red (functional accent, not a brand hue)
+
+`#FF0000` is the most saturated colour in the system, so it is deliberately rationed. It does **not** join the 60-30-10 split, and it is **not** the danger colour — danger remains a semantic status with its own tints (§3.4). Red is for urgency and liveness: a recording dot, the pressed state of a destructive action, a single editorial rule.
+
+| Token | Light | Dark | Used in |
+|---|---|---|---|
+| `--red-vivid` | `#FF0000` | `#FF0000` | Live/recording dot, destructive hover and active emphasis, one editorial accent rule |
+| `--on-red` | `#0B1220` | `#0B1220` | Text and icons on a `--red-vivid` fill |
+
+**Rules**
+- **Graphic only.** `#FF0000` is 3.7:1 on `--bg-base`, 4.0:1 on white and 4.3:1 on the dark `--bg-surface` — enough for icons, dots, borders and large text, **never** for body copy. When you need red text, use `--status-danger-fg`.
+- **Dark ink on red, never white.** `--on-red` is 4.7:1 on `#FF0000`; white is 4.0:1 and fails.
+- **Never the CTA.** Amber owns the single conversion action per view.
+- **Never a status substitute.** If the meaning is "error" or "danger", use `--status-danger` with an icon and a label, so the state is not carried by hue alone.
+- **At most one red element per view**, and never directly beside the amber CTA.
+
 ---
 
 ## 4. CSS Tokens
@@ -191,6 +209,9 @@ Max 4 series + other; vary dash/marker/pattern so series don't rely on hue alone
   --amber-fill: #ffb627; --on-amber: #0b1220;  --amber-hover: #f59e0b;
   --amber-border: #c77d0a; --amber-text: #92400e;
   --amber-tint: #fff3d6; --on-amber-tint: #92400e; --amber-graphic: #c77d0a;
+
+  /* vivid red — functional accent only; identical in both modes */
+  --red-vivid: #ff0000; --on-red: #0b1220;
 
   /* status */
   --status-success: #137a42; --status-success-bg: #ddf5e6; --status-success-fg: #0b5130;
@@ -373,6 +394,8 @@ Always icon + text.
 | `--amber-text` on `--bg-base` | 6.6:1 | 10.7:1 |
 | `--on-amber-tint` on `--amber-tint` | 6.4:1 | 10.3:1 |
 | `--amber-border` on `--bg-base` (CTA edge) | 3.1:1 | n/a (amber vs navy ≥10:1) |
+| `--red-vivid` on `--bg-base` (graphic) | 3.7:1 | 4.7:1 |
+| `--on-red` on `--red-vivid` | 4.7:1 | 4.7:1 |
 | `--border-input` on `--bg-surface` | 3.6:1 | 4.4:1 (3.4:1 on `--bg-top`) |
 | `--focus-ring` on `--bg-base` | 5.9:1 | 7.1:1 |
 | `--on-band` on `--blue-deep` | 13.8:1 | 13.8:1 |
@@ -382,7 +405,7 @@ Always icon + text.
 | `--syn-comment` on `--code-bg` | 5.2:1 | 5.3:1 |
 | Chart series on `--bg-surface` | ≥3.3:1 (amber `#C77D0A` is lowest) | ≥6.0:1 |
 
-_Avoid:_ amber text on light backgrounds (use `--amber-text`) · white on `#FFB627` (1.9:1) · cobalt links in running text without underline (≈2.2:1 against body text) · amber and warning on the same component · gradients behind text.
+_Avoid:_ amber text on light backgrounds (use `--amber-text`) · white on `#FFB627` (1.9:1) · cobalt links in running text without underline (≈2.2:1 against body text) · amber and warning on the same component · gradients behind text · `#FF0000` body text on light surfaces (4.0:1; use `--status-danger-fg`) · white on `#FF0000` (4.0:1; use `--on-red`).
 
 ### 7.2 PR checklist
 
@@ -391,6 +414,7 @@ _Avoid:_ amber text on light backgrounds (use `--amber-text`) · white on `#FFB6
 - [ ] Text ≥4.5:1; icons/borders/charts ≥3:1; inputs use `--border-input`
 - [ ] Status shown by icon + label, not color alone
 - [ ] Exactly **one** amber CTA in the viewport
+- [ ] Red used as a graphic only, never body text on light, and at most one per view
 - [ ] Links in running text underlined
 - [ ] Visible focus ring; keyboard order logical
 - [ ] Touch targets ≥44px, inputs 16px on touch
@@ -406,10 +430,81 @@ _Avoid:_ amber text on light backgrounds (use `--amber-text`) · white on `#FFB6
 3. **A/B test the CTA** (amber vs cobalt Primary; label wording) and measure click-through; keep ≥4.5:1 in every variant.
 4. **Feedback:** show the palette to 5 target clients; ask what it communicates (trust, craft, speed?). Check cultural readings of the colors for your key markets.
 5. **CVD simulation:** run key screens and charts through a color-blind simulator; confirm status is carried by icon and label.
+6. **Motion pass:** turn on `prefers-reduced-motion` and reload every key page; confirm each reveal still shows its content, and that nothing animates for longer than five seconds without a pause (§9.6).
 
 ---
 
-## 9. Quick Reference
+## 9. Motion & Component Libraries
+
+Four tools are available. They overlap, so the governing rule is **one engine per interaction**: two animation libraries on the same element produce timing you cannot reason about and double the payload for no benefit.
+
+### 9.1 Choose the tool before writing the animation
+
+| Need | Use | Why |
+|---|---|---|
+| Hover, focus, pressed, open/close on one element | **CSS only** | A transition is smaller and cannot desync from React state. Reach for a library only when CSS genuinely cannot express it. |
+| Scroll-linked narrative, pinning, scrubbing, long multi-step sequences | **GSAP** (+ ScrollTrigger) | Built for choreography: one timeline, precise seeking, and pinning that survives layout changes. |
+| Self-contained UI motion — staggered lists, FLIP layout moves, draggable, text scramble, SVG draw | **Anime.js** | Small API, no scroll-pinning model to fight, and a v4 engine that handles stagger and layout natively. |
+| A whole marketing block — marquee, bento grid, animated beam, number ticker | **Magic UI** | Pre-built sections that already solve the layout problem; you restyle them to tokens. |
+| One animated text effect, background or card you want to own | **React Bits** | Copy-in component in four flavours, with no runtime dependency on the library itself. |
+| A product UI state change (button, table row, toast) | **Design system + CSS** | Anything else drifts from the tokens and the rules in §5. |
+
+### 9.2 GSAP
+
+**Use when** timing between several elements matters, when the animation is driven by scroll position, or when you need to pause, reverse, seek or retime. Timelines are the reason to pick it: sequencing ten elements with position parameters is far more readable than ten independent tweens, and ScrollTrigger's pinning and scrubbing have no CSS equivalent.
+
+**Do not use** for a single hover or enter transition, or to animate React state — that is CSS or component state.
+
+- **Licence:** free for commercial use since 3.13 (April 2025, after Webflow acquired GreenSock), including the plugins that used to be Club-only (SplitText, ScrollTrigger, MorphSVG, DrawSVG, ScrollSmoother). It is **not** MIT: the GreenSock "No Charge" licence forbids reselling GSAP itself or using it to build a competing animation product.
+- **Install:** `npm i gsap`. Import plugins from their own paths (`gsap/ScrollTrigger`) and register them once in a client component.
+- **Cleanup:** every timeline created in a component must be reverted on unmount (`gsap.context()` or the `useGSAP` hook). A timeline that outlives its component keeps animating detached nodes and leaks memory.
+- **With React:** create animations in an effect or hook, never during render, and keep the end state expressible in CSS so reduced motion can skip straight to it.
+
+### 9.3 Anime.js
+
+**Use when** the motion belongs to one component and needs no scroll narrative: staggering cards into view, animating a counter, drawing an SVG path, scrambling text, dragging a slider, or animating a layout change when a list reorders or filters.
+
+**Do not use** when GSAP is already driving the same interaction, and do not use it for scroll pinning — that is ScrollTrigger's job.
+
+- **Licence:** MIT.
+- **Install:** `npm i animejs`. Version 4 is ESM and its API differs from v3: `animate()`, `createTimeline()`, `stagger()`, `createScope()`. Do not paste v3 snippets; they will not run against v4.
+- **Cleanup:** wrap animations created in a component in `createScope()` and revert the scope on unmount.
+- **Accessibility:** `splitText` and `scrambleText` rewrite text nodes. Keep the original string available to assistive technology and never let scrambled text be the only copy of information.
+
+### 9.4 Magic UI
+
+**Use when** building a marketing section and a pre-built block solves a layout problem you would otherwise spend a day on: `Marquee` for a logo or tech-stack strip, `Bento Grid` for features, `Animated Beam` for a workflow, `Number Ticker` for a metric, `Magic Card` or `Shine Border` for emphasis.
+
+**Do not use** for product UI controls, form fields or tables. Those come from the design system, and Magic UI ships its own neutral palette that fights the tokens.
+
+- **Install:** `npx shadcn@latest add @magicui/<component>`. Components are copied into the repo, so you own and maintain them.
+- **Dependencies:** some components pull in `motion` (Framer Motion). Check before adding one; do not adopt a new animation runtime for a single decorative effect.
+- **Restyle first:** replace its raw colours and radii with tokens (§3–§4) and verify both themes before shipping. A component that ignores `--bg-surface` will look foreign in dark mode.
+
+### 9.5 React Bits
+
+**Use when** you want one specific effect — a split-text reveal, an animated background, a spotlight card — and you would rather own a small file than depend on a library's API.
+
+**Do not use** for content that must be readable without JavaScript, and do not let a decorative component replace a real one.
+
+- **Install:** `npx shadcn@latest add @react-bits/<Name>-TS-TW`. Every component ships in four flavours; this project uses the TypeScript + Tailwind build.
+- **Licence:** MIT + Commons Clause. Free for personal and commercial work, but the components themselves may not be sold, sublicensed or redistributed.
+- **Check the dependencies:** several components use GSAP, Three.js or Motion. If one drags in an engine you have not already committed to, prefer a lighter option or write the effect yourself.
+- **Restyle** to the tokens and confirm reduced motion before shipping.
+
+### 9.6 Non-negotiables for every animation
+
+- **`prefers-reduced-motion`** — every animation needs a static path that still shows the content. `globals.css` already disables transitions globally under that query; do not bypass it with JS-only reveals that leave content invisible.
+- **Never hide content behind JavaScript.** Text must be readable before hydration and if the script fails to load.
+- **Transform and opacity**, not `top`/`left`/`width`/`height` — except through a FLIP animation, which Anime.js's layout module and GSAP's Flip do properly.
+- **One engine per interaction.** Do not stack GSAP and Anime.js on the same element, or use both to coordinate one reveal.
+- **Client components only**, and load heavy engines lazily when they are not above the fold.
+- **Animate to token values.** No hard-coded colours or easings that ignore §3.
+- **Anything running longer than five seconds must be pausable, stoppable or hideable** (WCAG 2.2.2); autoplaying background motion counts.
+
+---
+
+## 10. Quick Reference
 
 | Need | Token |
 |---|---|
@@ -420,10 +515,12 @@ _Avoid:_ amber text on light backgrounds (use `--amber-text`) · white on `#FFB6
 | Main CTA (one per view) | `--amber-fill` + `--on-amber` + `--amber-border` (hover `--amber-hover`) |
 | Amber-toned text / metric | `--amber-text`, `--amber-tint` + `--on-amber-tint` |
 | Success · Warning · Danger · Info · Neutral | `--status-*` (soft bg + `-fg` text) |
+| Urgency accent (graphic only) | `--red-vivid` + `--on-red`; red text → `--status-danger-fg` |
 | Brand bands (CTA, footer) | `--blue-deep` + `--on-band` + `--band-link` |
 | Code | `--code-bg`, `--code-text`, `--syn-*` |
 | Input border | `--border-input` |
 | Disabled | `opacity .5` + `cursor-not-allowed` (inputs `--bg-disabled`) |
+| Motion | CSS first; GSAP for scroll and sequencing; Anime.js for component motion; Magic UI / React Bits for marketing blocks (§9) |
 
 ---
 
