@@ -23,6 +23,27 @@ const HEADLINE_TAIL = [
   "that scales.",
 ];
 
+function NairobiTime() {
+  const [time, setTime] = useState<string | null>(null);
+
+  useEffect(() => {
+    const format = new Intl.DateTimeFormat("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "Africa/Nairobi",
+    });
+    const update = () => setTime(format.format(new Date()));
+    update();
+    const timer = window.setInterval(update, 30000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  // Blank until mounted: the server cannot know the reader's clock, so it
+  // renders nothing rather than a wrong time that hydration must correct.
+  if (!time) return null;
+  return <>{time} EAT</>;
+}
+
 export function Hero() {
   const rootRef = useRef<HTMLElement | null>(null);
   const deviceRef = useRef<HTMLDivElement | null>(null);
@@ -210,6 +231,30 @@ export function Hero() {
                           Nairobi · Remote
                         </p>
                       </div>
+                    </div>,
+                    <div key="profile" className="px-4 pb-2 pt-12 text-center">
+                      <img
+                        src="/brand/kelvin.svg"
+                        alt="Kelvin Ramsiel, founder of Xeraki"
+                        width={88}
+                        height={88}
+                        className="mx-auto size-[88px] rounded-full bg-blue-tint-subtle object-cover ring-2 ring-border"
+                      />
+                      <p className="mt-4 text-lg font-semibold tracking-tight text-ink">
+                        Kelvin Ramsiel
+                      </p>
+                      <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+                        Founder &amp; lead engineer
+                      </p>
+                      <p className="mx-auto mt-3 max-w-[210px] text-balance text-[13px] leading-relaxed text-muted">
+                        I take platforms from an empty repo to production.
+                      </p>
+                      <p className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-border px-2.5 py-1 text-[11px] font-medium text-muted">
+                        <span className="live-dot size-1.5 rounded-full bg-red-vivid" />
+                        Nairobi
+                        <span aria-hidden="true">·</span>
+                        <NairobiTime />
+                      </p>
                     </div>,
                     <div key="services" className="px-4 pb-2 pt-12">
                       <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
