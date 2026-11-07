@@ -41,7 +41,7 @@ export function Contact() {
           <div className="lg:col-span-7">
             <Reveal>
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
-                04 — Contact
+                06 — Contact
               </p>
               <h2
                 id="contact-heading"

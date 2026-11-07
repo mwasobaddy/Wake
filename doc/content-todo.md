@@ -67,7 +67,10 @@ real links, which an empty blog does not. When it does exist:
 
 ### Testimonials
 
-Only with written permission and an attributable quote.
+Only with written permission and an attributable quote. The section
+currently renders three role-only Sample placeholders (`site.testimonials`
+with `placeholder: true`); the tag and this file both say so, and the
+quotes carry no names and no metrics until real ones arrive.
 
 ### Team
 

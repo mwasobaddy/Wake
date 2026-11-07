@@ -3,6 +3,8 @@ import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { Work } from "@/components/Work";
 import { About } from "@/components/About";
+import { Stack } from "@/components/Stack";
+import { Testimonials } from "@/components/Testimonials";
 import { Contact } from "@/components/Contact";
 
 export const metadata: Metadata = {
@@ -18,6 +20,8 @@ export default function Home() {
       <Services />
       <Work />
       <About />
+      <Stack />
+      <Testimonials />
       <Contact />
     </>
   );

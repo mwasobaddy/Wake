@@ -526,7 +526,9 @@ The rest of the page extends the same split without reaching for an engine where
   dependency-free: screens share one grid cell so the viewport is always the
   tallest screen, they cross-fade on CSS, and a timer advances them. The timer
   never starts under reduced motion, pauses on hover, focus and hidden tabs,
-  and the dots always work by hand.
+  and the dots always work by hand. The hero phone's fourth screen is a
+  `TerminalScreen` that types the shadcn init transcript on entry and replays
+  it on return; reduced motion and no-JS show the full transcript at once.
 - **Border beams** (`BorderBeam`, on the Services cards and every iPhone) are
   the Magic UI read without its `motion` runtime: the traveller rides a CSS
   `offset-path` rectangle instead. Hidden entirely under reduced motion.
@@ -534,6 +536,17 @@ The rest of the page extends the same split without reaching for an engine where
   generator — it is deterministic, so server and client render identical
   dots — but the marker is a hand-drawn Kenya flag over Nairobi with a
   pulse that only starts when motion is allowed.
+- **Pointer** (hero only) is the Magic UI read without `motion`: a rAF
+  loop lerps a cobalt dot and a trailing amber ring. Fine pointers with
+  motion allowed get it and lose the native cursor inside the hero;
+  everyone else is untouched.
+- **Orbiting circles** (`Stack` section) are pure CSS from the start — no
+  runtime to remove. Rings use container-query units so the system scales,
+  and the base transform matches the first keyframe so reduced motion
+  rests items on the circle instead of piling them at the centre.
+- **Testimonies** skip the registry TweetCard entirely: it fetches live
+  tweets over the network, and there are no tweets to fetch. Quote cards
+  in tokens carry role-only Sample placeholders until real quotes arrive.
 
 Copying that split for the next section is the intended pattern: one engine per interaction, and CSS wherever CSS is enough.
 

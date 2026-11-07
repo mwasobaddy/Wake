@@ -158,6 +158,55 @@ export const site = {
     whatsapp: "https://wa.me/254740252837",
     location: "Nairobi City, Kenya",
   },
+  /**
+   * Counted across 25 shipped projects (the previous portfolio catalogue).
+   * Variants are folded so the numbers stay honest: Laravel 12/13 into
+   * Laravel, Next.js 16 into Next.js, the AI spellings into AI/LLM, and the
+   * realtime spellings into WebSockets. Inner ring is the top six, outer
+   * ring the next nine.
+   */
+  stackInner: [
+    { name: "Laravel", projects: 15 },
+    { name: "TypeScript", projects: 11 },
+    { name: "React", projects: 8 },
+    { name: "Blade", projects: 8 },
+    { name: "PHP", projects: 7 },
+    { name: "Next.js", projects: 3 },
+  ],
+  stackOuter: [
+    { name: "WebSockets", projects: 4 },
+    { name: "Tailwind CSS", projects: 3 },
+    { name: "PostgreSQL", projects: 3 },
+    { name: "AI / LLM", projects: 3 },
+    { name: "Node.js", projects: 2 },
+    { name: "Express", projects: 2 },
+    { name: "Expo", projects: 2 },
+    { name: "React Native", projects: 2 },
+    { name: "M-Pesa", projects: 1 },
+  ],
+  shippedTotal: 25,
+  /**
+   * PLACEHOLDERS, like `work`. Role-only attributions, no invented names,
+   * no invented metrics — and each card carries a Sample tag until replaced
+   * by a real quote with written permission. See doc/content-todo.md.
+   */
+  testimonials: [
+    {
+      placeholder: true,
+      role: "Founder, SaaS",
+      text: "Xeraki took our idea from a rough brief to a platform our customers pay through. One person, zero hand-offs, no drama.",
+    },
+    {
+      placeholder: true,
+      role: "Operations lead, Enterprise",
+      text: "The weekly slices meant we always knew where things stood. The handover docs were better than what we had before.",
+    },
+    {
+      placeholder: true,
+      role: "Owner, Services SME",
+      text: "What used to take a day of admin now takes a text prompt. It just works, which is exactly what was promised.",
+    },
+  ],
   footer: {
     columns: [
       {
