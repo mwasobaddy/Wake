@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site } from "@/data/site";
+import { Mark } from "./Mark";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -11,8 +12,11 @@ export default function Footer() {
           <div>
             <Link
               href="/"
-              className="rounded-control text-lg font-semibold tracking-tight text-on-band focus-visible:outline-2 focus-visible:outline-offset-4"
+              className="inline-flex items-center gap-3 rounded-control text-lg font-semibold tracking-tight text-on-band focus-visible:outline-2 focus-visible:outline-offset-4"
             >
+              {/* The band is dark in both themes, so the anchor must be amber
+                  here regardless of the page theme. */}
+              <Mark height={32} className="shrink-0" cutsId="footer" tone="dark" />
               {site.name}
             </Link>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-on-band/70">

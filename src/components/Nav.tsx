@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { site } from "@/data/site";
 import ThemeToggle from "./ThemeToggle";
+import { Mark } from "./Mark";
 
 function MenuIcon({ open }: { open: boolean }) {
   return (
@@ -53,8 +54,9 @@ export default function Nav() {
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-5 sm:px-8">
         <Link
           href="/"
-          className="inline-flex h-11 items-center rounded-control text-lg font-semibold tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus-ring"
+          className="inline-flex h-11 items-center gap-2.5 rounded-control text-lg font-semibold tracking-tight text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus-ring"
         >
+          <Mark height={28} className="shrink-0" cutsId="nav" />
           {site.name}
         </Link>
 

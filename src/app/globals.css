@@ -50,9 +50,16 @@
   --on-amber-tint: #92400e;
   --amber-graphic: #c77d0a;
 
-  /* vivid red — functional accent only; identical in both modes */
+  /* vivid red — brand accent; identical in both modes */
   --red-vivid: #ff0000;
   --on-red: #0b1220;
+
+  /* brand mark: cobalt and red are fixed, the anchor flips with the surface */
+  --mark-cobalt: #2f4fe0;
+  --mark-red: #ff0000;
+  --mark-anchor-light: #0f172a;
+  --mark-anchor-dark: #ffb627;
+  --mark-anchor: var(--mark-anchor-light);
 
   /* status */
   --status-success: #137a42;
@@ -98,6 +105,8 @@
 
 [data-theme="dark"] {
   color-scheme: dark;
+
+  --mark-anchor: var(--mark-anchor-dark);
 
   --bg-base: #0b1220;
   --bg-surface: #111a2e;
