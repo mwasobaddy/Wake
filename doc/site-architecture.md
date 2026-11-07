@@ -43,6 +43,14 @@ with it for the same intent.
   each href, so switching `/#work` to `/work` is a string change.
 - Update this file.
 
+## Current content status
+
+- **Work** is a home section with three placeholder case studies
+  (`site.work`, `placeholder: true`), each rendering a "Sample" tag. Promotion
+  to `/work` waits on real case studies — see `doc/content-todo.md`.
+- **Insights** is intentionally absent from the nav. A blog is only added when
+  the bar in `doc/content-todo.md` is met; an empty index is worse than none.
+
 ## Non-negotiables
 
 - One `<h1>` per page. Sections use `<h2>`, cards use `<h3>`.
