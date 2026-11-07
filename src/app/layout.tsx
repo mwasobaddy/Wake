@@ -4,7 +4,7 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { InlineScript } from "@/components/InlineScript";
-import { site } from "@/data/site";
+import { site, siteUrl } from "@/data/site";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,10 +19,33 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: `${site.name} — Product engineering studio`,
     template: `%s — ${site.name}`,
   },
+  description: site.description,
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    siteName: site.name,
+    title: `${site.name} — Product engineering studio`,
+    description: site.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} — Product engineering studio`,
+    description: site.description,
+  },
+};
+
+/** Site-wide entity. Every value here is also visible on the page. */
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: site.name,
+  url: siteUrl,
+  logo: `${siteUrl}/brand/mark-on-light.svg`,
   description: site.description,
 };
 
@@ -30,7 +53,7 @@ export const metadata: Metadata = {
  * Runs before first paint so the correct theme is already on <html>. Without
  * this the page paints light, then snaps to dark once React hydrates.
  */
-const themeScript = `(function(){try{var s=localStorage.getItem("theme");var d=s?s==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.dataset.theme=d?"dark":"light";}catch(e){document.documentElement.dataset.theme="light";}})();`;
+const themeScript = `(function(){var r=document.documentElement;r.classList.add("js");try{var s=localStorage.getItem("theme");var d=s?s==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;r.dataset.theme=d?"dark":"light";}catch(e){r.dataset.theme="light";}})();`;
 
 export default function RootLayout({
   children,
@@ -59,6 +82,10 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
       </body>
     </html>
   );
