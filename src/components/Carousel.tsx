@@ -17,6 +17,7 @@ export function Carousel({
   label,
   screens,
   intervalMs = 6000,
+  onChange,
   className,
 }: {
   /** Announced as the carousel's name, e.g. "Studio highlights". */
@@ -24,11 +25,20 @@ export function Carousel({
   screens: readonly ReactNode[];
   /** Ms between automatic advances. */
   intervalMs?: number;
+  /** Called with the new index whenever the screen changes. */
+  onChange?: (index: number) => void;
   className?: string;
 }) {
   const [index, setIndex] = useState(0);
   const timer = useRef<number | null>(null);
   const count = screens.length;
+  // Held in a ref so the interval never restarts when the parent re-renders
+  // with a new callback identity. Assigned in an effect: writing a ref
+  // during render is a lint error and tears under concurrent rendering.
+  const onChangeRef = useRef(onChange);
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  });
 
   const stop = useCallback(() => {
     if (timer.current !== null) {
@@ -41,7 +51,13 @@ export function Carousel({
     stop();
     if (count < 2) return;
     timer.current = window.setInterval(() => {
-      setIndex((current) => (current + 1) % count);
+      setIndex((current) => {
+        const next = (current + 1) % count;
+        // Microtask, not a render-phase side effect: StrictMode may invoke
+        // the updater twice, but the parent only needs the value.
+        queueMicrotask(() => onChangeRef.current?.(next));
+        return next;
+      });
     }, intervalMs);
   }, [count, intervalMs, stop]);
 
@@ -99,6 +115,7 @@ export function Carousel({
               type="button"
               onClick={() => {
                 setIndex(i);
+                onChangeRef.current?.(i);
                 start();
               }}
               aria-label={`Show ${label} screen ${i + 1} of ${count}`}

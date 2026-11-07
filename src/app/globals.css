@@ -613,3 +613,76 @@
     animation: none;
   }
 }
+
+/* --- Orbiting circles (adapted from Magic UI, MIT) -------------------------
+   Each child starts at its own angle on the radius and counter-rotates so
+   pills stay upright. The base transform matches the first keyframe, so
+   reduced motion leaves items distributed on the circle. */
+
+.orbit-child {
+  transform:
+    rotate(var(--orbit-angle))
+    translateX(var(--orbit-radius))
+    rotate(calc(var(--orbit-angle) * -1));
+  animation: orbit-spin var(--orbit-duration, 24s) linear infinite;
+  animation-delay: var(--orbit-delay, 0s);
+}
+
+.orbit-reverse {
+  animation-direction: reverse;
+}
+
+@keyframes orbit-spin {
+  from {
+    transform:
+      rotate(var(--orbit-angle))
+      translateX(var(--orbit-radius))
+      rotate(calc(var(--orbit-angle) * -1));
+  }
+  to {
+    transform:
+      rotate(calc(var(--orbit-angle) + 360deg))
+      translateX(var(--orbit-radius))
+      rotate(calc((var(--orbit-angle) + 360deg) * -1));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-child {
+    animation: none;
+  }
+}
+
+/* --- Terminal typing -------------------------------------------------------
+   Lines fade and rise as they print. Killed globally under reduced motion,
+   where every line renders at once. */
+
+.terminal-line {
+  animation: terminal-in 0.3s ease both;
+}
+
+@keyframes terminal-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.terminal-caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  vertical-align: -0.15em;
+  background: var(--term-prompt);
+  animation: terminal-blink 1s steps(2, start) infinite;
+}
+
+@keyframes terminal-blink {
+  to {
+    visibility: hidden;
+  }
+}

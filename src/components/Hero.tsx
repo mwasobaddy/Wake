@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { BorderBeam } from "./BorderBeam";
@@ -8,6 +8,8 @@ import { Mark } from "./Mark";
 import { Marquee } from "./Marquee";
 import { MorphingText } from "./MorphingText";
 import { Carousel } from "./Carousel";
+import { Pointer } from "./Pointer";
+import { TerminalScreen } from "./TerminalScreen";
 import { IPhone } from "./IPhone";
 import { ServiceIcon, type ServiceIconName } from "./ServiceIcons";
 import { FlickeringGrid } from "./FlickeringGrid";
@@ -25,6 +27,7 @@ const HEADLINE_TAIL = [
 export function Hero() {
   const rootRef = useRef<HTMLElement | null>(null);
   const deviceRef = useRef<HTMLDivElement | null>(null);
+  const [screen, setScreen] = useState(0);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -79,6 +82,7 @@ export function Hero() {
 
   return (
     <section ref={rootRef} className="relative overflow-hidden">
+      <Pointer />
       {/* Single-hue glow behind a living grid, both decorative. */}
       <div
         aria-hidden="true"
@@ -148,6 +152,7 @@ export function Hero() {
                 <BorderBeam delay={0.5} />
                 <Carousel
                   label="Studio highlights"
+                  onChange={setScreen}
                   screens={[
                     <div key="story" className="px-4 pb-2 pt-12">
                       <div className="flex items-center gap-2.5">
@@ -258,6 +263,7 @@ export function Hero() {
                         {site.contact.location}
                       </p>
                     </div>,
+                    <TerminalScreen key="setup" active={screen === 3} />,
                   ]}
                 />
               </IPhone>
