@@ -77,7 +77,7 @@ export function Carousel({
           if (!event.currentTarget.contains(event.relatedTarget)) start();
         }}
       >
-        <div className="grid">
+        <div className="grid min-w-0 grid-cols-1">
           {screens.map((screen, i) => (
             <div
               key={i}

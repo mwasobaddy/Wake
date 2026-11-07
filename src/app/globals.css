@@ -533,6 +533,7 @@
 
 .carousel-screen {
   grid-area: 1 / 1;
+  min-width: 0;
   opacity: 0;
   transform: translateX(28px);
   visibility: hidden;
