@@ -5,16 +5,21 @@ import Link from "next/link";
 import gsap from "gsap";
 import { Mark } from "./Mark";
 import { Marquee } from "./Marquee";
+import { MorphingText } from "./MorphingText";
 import { Safari } from "./Safari";
 import { MacFrame } from "./MacFrame";
 import { IPhone } from "./IPhone";
 import { FlickeringGrid } from "./FlickeringGrid";
-import { cx } from "@/lib/cx";
 import { site } from "@/data/site";
 
-const HEADLINE = ["We", "build", "software", "that", "has", "to", "work."];
-/** Words from this index on carry the cobalt highlight. */
-const HIGHLIGHT_FROM = 4;
+const HEADLINE_START = ["We", "build", "software"];
+/** Each tail completes "We build software …"; the first is also the no-JS text. */
+const HEADLINE_TAIL = [
+  "that has to work.",
+  "that ships.",
+  "that holds up.",
+  "that scales.",
+];
 
 export function Hero() {
   const rootRef = useRef<HTMLElement | null>(null);
@@ -93,22 +98,23 @@ export function Hero() {
             </p>
 
             <h1 className="mt-6 max-w-3xl text-4xl font-semibold leading-[0.98] tracking-tight text-ink sm:text-5xl lg:text-[4.25rem]">
-              {HEADLINE.map((word, i) => (
+              {HEADLINE_START.map((word, i) => (
                 <span
                   key={`${word}-${i}`}
                   className="inline-block overflow-hidden pb-2 align-bottom"
                 >
-                  <span
-                    className={cx(
-                      "hero-word inline-block",
-                      i >= HIGHLIGHT_FROM && "text-blue-text",
-                    )}
-                  >
+                  <span className="hero-word inline-block">
                     {word}
-                    {i < HEADLINE.length - 1 ? "\u00A0" : ""}
+                    {"\u00A0"}
                   </span>
                 </span>
               ))}
+              <span className="inline-block overflow-hidden pb-2 align-bottom">
+                <MorphingText
+                  texts={HEADLINE_TAIL}
+                  className="hero-word text-blue-text"
+                />
+              </span>
             </h1>
 
             <p className="hero-sub mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted">
