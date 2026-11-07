@@ -1,5 +1,6 @@
 import { Reveal } from "./Reveal";
 import { SpotlightCard } from "./SpotlightCard";
+import { IPhone } from "./IPhone";
 import { site } from "@/data/site";
 
 export function Work() {
@@ -28,45 +29,47 @@ export function Work() {
           </div>
         </Reveal>
 
-        <ul className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           {site.work.map((project, index) => (
-            <li key={project.title} className="h-full">
-              <Reveal delay={index * 60} className="h-full">
-                <SpotlightCard className="h-full rounded-card">
-                  <article className="flex h-full flex-col rounded-card border border-border bg-surface p-6">
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
-                        {project.sector}
-                      </span>
-                      {project.placeholder ? (
-                        <span className="rounded-full border border-border px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted">
-                          Sample
+            <li key={project.title} className="flex justify-center">
+              <Reveal delay={index * 60} className="w-full max-w-[290px]">
+                <SpotlightCard className="rounded-[3rem]">
+                  <IPhone proportional className="w-full">
+                    <div className="flex min-h-0 flex-1 flex-col px-4 pb-2 pt-12">
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+                          {project.sector}
                         </span>
-                      ) : null}
+                        {project.placeholder ? (
+                          <span className="rounded-full border border-border px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-muted">
+                            Sample
+                          </span>
+                        ) : null}
+                      </div>
+
+                      <h3 className="mt-4 text-lg font-semibold tracking-tight text-ink">
+                        {project.title}
+                      </h3>
+                      <p className="mt-2 line-clamp-5 text-[13px] leading-relaxed text-muted">
+                        {project.summary}
+                      </p>
+
+                      <ul className="mb-4 mt-4 flex flex-wrap gap-1.5">
+                        {project.stack.map((item) => (
+                          <li
+                            key={item}
+                            className="rounded-full bg-sunken px-2.5 py-1 text-[11px] font-medium text-muted"
+                          >
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+
+                      <p className="mt-auto border-t border-border pt-4 text-xs text-muted">
+                        Case study in preparation
+                      </p>
                     </div>
-
-                    <h3 className="mt-4 text-lg font-semibold tracking-tight text-ink">
-                      {project.title}
-                    </h3>
-                    <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
-                      {project.summary}
-                    </p>
-
-                    <ul className="mt-5 flex flex-wrap gap-1.5">
-                      {project.stack.map((item) => (
-                        <li
-                          key={item}
-                          className="rounded-full bg-sunken px-2.5 py-1 text-[11px] font-medium text-muted"
-                        >
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-
-                    <p className="mt-5 border-t border-border pt-4 text-xs text-muted">
-                      Case study in preparation
-                    </p>
-                  </article>
+                  </IPhone>
                 </SpotlightCard>
               </Reveal>
             </li>

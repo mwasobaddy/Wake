@@ -141,7 +141,7 @@ export function Hero() {
 
           <div className="hero-panel lg:col-span-5">
             <div ref={deviceRef} className="flex justify-center">
-              <IPhone>
+              <IPhone className="w-[270px]">
                 <div className="px-4 pb-2 pt-12">
                   <div className="flex items-center gap-2.5">
                     <Mark height={26} cutsId="hero-phone" />
